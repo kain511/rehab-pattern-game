@@ -31,7 +31,12 @@
 
 <section id="result" class="screen"><div class="wrap card result"><div style="font-size:48px">🏆</div><h2>게임 종료!</h2><div id="fs" class="score">0</div><div>점</div><div id="playerResult" style="font-weight:900;margin-top:8px"></div><div class="stats"><div><strong id="cc">0/10</strong>정답</div><div><strong id="ac">0%</strong>정확도</div><div><strong id="rk">BRONZE</strong>등급</div></div><div class="actions"><button class="primary" onclick="start(size)">다시 플레이</button><button class="secondary" onclick="show('difficulty')">난이도 변경</button><button class="secondary" onclick="show('ranking');renderRankings()">랭킹보드</button><button class="secondary" onclick="show('home')">메인으로</button></div></div></section>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL="https://mwgkhqgevlyxbflpwjix.supabase.co";
+const SUPABASE_KEY="sb_publishable_b0FVicfcYcXIISINWOUVKg_vHNzEf_s";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
 const C={red:["빨간색","red"],yellow:["노란색","yellow"],blue:["파란색","blue"],purple:["보라색","purple"],green:["초록색","green"],orange:["주황색","orange"]};
 const sets={3:["red","yellow","blue"],5:["red","yellow","blue","purple"],7:["red","yellow","blue","purple"],9:["red","yellow","blue","purple","orange"]};
 let size=3,q=0,score=0,right=0,answer="",timer=null,answerTimer=null,locked=false,answerStart=0;
@@ -43,10 +48,8 @@ let returningToLobby=false;
 function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
 function shuffle(a){for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function makePalette(n){
-  // 각 문제마다 색상 순서를 새로 섞고,
-  // 바로 이전 문제와 같은 색상 순서는 피한다.
   const base=[...sets[n]];
-  let palette, sig;
+  let palette,sig;
   do{
     palette=shuffle([...base]);
     sig=palette.join("-");
@@ -57,9 +60,6 @@ function makePalette(n){
 
 function pattern(n){
   const palette=makePalette(n);
-
-  // 매우 어려움(9×9)은 같은 색이 4칸 이상 연속으로 이어지지 않도록 생성한다.
-  // 가로/세로뿐 아니라 대각선까지 확인해 색 덩어리가 길게 이어지는 것을 줄인다.
   let a=[];
   const maxRun=(n===9)?3:Infinity;
   function valid(r,c,color){
@@ -75,51 +75,117 @@ function pattern(n){
   for(let r=0;r<n;r++)for(let c=0;c<n;c++){
     let choices=shuffle([...palette]);
     if(n===3){
-      choices=choices.filter(x=> (c===0||a[r*n+c-1]!==x) && (r===0||a[(r-1)*n+c]!==x));
+      choices=choices.filter(x=>(c===0||a[r*n+c-1]!==x)&&(r===0||a[(r-1)*n+c]!==x));
     }
     if(n===9){
       const validChoices=choices.filter(x=>valid(r,c,x));
-      if(validChoices.length) choices=validChoices;
+      if(validChoices.length)choices=validChoices;
     }
     a.push(choices[Math.floor(Math.random()*choices.length)]);
   }
   return a;
 }
+
 function normalizeNickname(v){return v.trim().replace(/\s+/g," ").toLocaleLowerCase();}
-function saveNicknameAndGo(){let v=document.getElementById("nicknameInput").value.trim();if(!v){alert("닉네임을 입력해주세요.");return}let key=normalizeNickname(v);let duplicate=getRankings().some(r=>normalizeNickname(String(r.name||""))===key);if(duplicate){alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");document.getElementById("nicknameInput").focus();return}nickname=v;show("difficulty")}
+
+async function getRankings(){
+  const {data,error}=await supabaseClient
+    .from("rankings")
+    .select("nickname,difficulty,grid_size,score,accuracy,created_at")
+    .order("score",{ascending:false})
+    .order("accuracy",{ascending:false})
+    .order("created_at",{ascending:true})
+    .limit(100);
+  if(error)throw error;
+  return data||[];
+}
+
+async function nicknameExists(v){
+  const key=normalizeNickname(v);
+  const {data,error}=await supabaseClient
+    .from("rankings")
+    .select("nickname")
+    .limit(1000);
+  if(error)throw error;
+  return (data||[]).some(r=>normalizeNickname(String(r.nickname||""))===key);
+}
+
+async function saveNicknameAndGo(){
+  const v=document.getElementById("nicknameInput").value.trim();
+  if(!v){alert("닉네임을 입력해주세요.");return;}
+
+  try{
+    const duplicate=await nicknameExists(v);
+    if(duplicate){
+      alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
+      document.getElementById("nicknameInput").focus();
+      return;
+    }
+    nickname=v;
+    show("difficulty");
+  }catch(error){
+    console.error(error);
+    alert("랭킹 서버 연결 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+  }
+}
+
 function start(n){if(!nickname){show("nickname");return}size=n;q=0;score=0;right=0;previousPalette="";gameStartedAt=Date.now();returningToLobby=false;document.getElementById("badge").textContent=({3:"쉬움 · 3×3",5:"보통 · 5×5",7:"어려움 · 7×7",9:"매우 어려움 · 9×9"})[n];show("game");next()}
-function leaveGame(){clearInterval(timer);returningToLobby=true;show("difficulty")}
-function getRankings(){try{return JSON.parse(localStorage.getItem("patternRankings_v3")||"[]")}catch(e){return[]}}
-function saveRanking(){let rankings=getRankings();rankings.push({name:nickname,diff:{3:"쉬움",5:"보통",7:"어려움",9:"매우 어려움"}[size],size:size+"×"+size,score:score,accuracy:right*10,time:new Date().toLocaleString("ko-KR")});rankings.sort((a,b)=>b.score-a.score || b.accuracy-a.accuracy);localStorage.setItem("patternRankings_v3",JSON.stringify(rankings.slice(0,100)))}
-function renderRankings(){let rows=getRankings();let el=document.getElementById("rankingTable");if(!rows.length){el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">아직 기록이 없습니다.</div>';return}el.innerHTML='<table style="width:100%;border-collapse:collapse;min-width:650px"><thead><tr>'+['순위','닉네임','단계','점수','정답률','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+'</tr></thead><tbody>'+rows.map((r,i)=>'<tr><td style="padding:13px;text-align:center">'+(i+1)+'</td><td style="padding:13px;text-align:center;font-weight:900">'+escapeHtml(r.name)+'</td><td style="padding:13px;text-align:center">'+r.diff+' ('+r.size+')</td><td style="padding:13px;text-align:center;font-weight:900">'+r.score+'</td><td style="padding:13px;text-align:center">'+r.accuracy+'%</td><td style="padding:13px;text-align:center">'+r.time+'</td></tr>').join('')+'</tbody></table>'}
+function leaveGame(){clearInterval(timer);clearInterval(answerTimer);returningToLobby=true;show("difficulty")}
+
+async function saveRanking(){
+  const row={
+    nickname:nickname,
+    difficulty:{3:"쉬움",5:"보통",7:"어려움",9:"매우 어려움"}[size],
+    grid_size:size,
+    score:score,
+    accuracy:right*10
+  };
+
+  const {error}=await supabaseClient.from("rankings").insert(row);
+  if(error){
+    if(error.code==="23505")throw new Error("DUPLICATE_NICKNAME");
+    throw error;
+  }
+}
+
+async function renderRankings(){
+  const el=document.getElementById("rankingTable");
+  el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">랭킹을 불러오는 중입니다...</div>';
+
+  try{
+    const rows=await getRankings();
+    if(!rows.length){
+      el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">아직 기록이 없습니다.</div>';
+      return;
+    }
+
+    el.innerHTML='<table style="width:100%;border-collapse:collapse;min-width:650px"><thead><tr>'+['순위','닉네임','단계','점수','정답률','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+'</tr></thead><tbody>'+rows.map((r,i)=>'<tr><td style="padding:13px;text-align:center">'+(i+1)+'</td><td style="padding:13px;text-align:center;font-weight:900">'+escapeHtml(String(r.nickname||''))+'</td><td style="padding:13px;text-align:center">'+escapeHtml(String(r.difficulty||''))+' ('+r.grid_size+'×'+r.grid_size+')</td><td style="padding:13px;text-align:center;font-weight:900">'+r.score+'</td><td style="padding:13px;text-align:center">'+r.accuracy+'%</td><td style="padding:13px;text-align:center">'+new Date(r.created_at).toLocaleString("ko-KR")+'</td></tr>').join('')+'</tbody></table>';
+  }catch(error){
+    console.error(error);
+    el.innerHTML='<div style="padding:35px;text-align:center;color:#c83c45">랭킹을 불러오지 못했습니다.</div>';
+  }
+}
+
 function escapeHtml(x){return x.replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
-function resetRankings(){
-  const pw = window.prompt("랭킹 초기화 비밀번호를 입력하세요.");
 
-  if(pw === null) return;
-
-  if(pw !== "6249"){
+async function resetRankings(){
+  const pw=window.prompt("랭킹 초기화 비밀번호를 입력하세요.");
+  if(pw===null)return;
+  if(pw!=="6249"){
     alert("비밀번호가 올바르지 않습니다.");
     return;
   }
+  if(!window.confirm("랭킹보드의 모든 기록을 삭제할까요? 삭제하면 복구할 수 없습니다."))return;
 
-  if(!window.confirm("랭킹보드의 모든 기록을 삭제할까요? 삭제하면 복구할 수 없습니다.")){
-    return;
+  try{
+    const {error}=await supabaseClient.rpc("reset_rankings",{admin_password:pw});
+    if(error)throw error;
+    alert("랭킹보드가 초기화되었습니다.");
+    await renderRankings();
+  }catch(error){
+    console.error(error);
+    alert("랭킹 초기화 중 오류가 발생했습니다.");
   }
-
-  ["patternRankings","patternRankings_v2","patternRankings_v3"].forEach(function(key){
-    try{
-      localStorage.removeItem(key);
-    }catch(e){}
-  });
-
-  const el = document.getElementById("rankingTable");
-
-  if(el){
-    el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">아직 기록이 없습니다.</div>';
-  }
-
-  alert("랭킹보드가 초기화되었습니다.");
 }
 
 function next(){
@@ -151,5 +217,24 @@ function check(c,b){
  document.getElementById("sc").textContent=score;setTimeout(next,1100)
 }
 function timeoutAnswer(){if(locked)return;locked=true;let bs=[...document.querySelectorAll(".answer")];let correctBtn=bs.find(x=>x.textContent.includes(C[answer][0]));if(correctBtn)correctBtn.classList.add("correct");document.getElementById("feedback").textContent="시간 초과! 정답은 "+C[answer][0]+"입니다.";document.getElementById("feedback").className="feedback no";document.getElementById("timer").textContent="0초";setTimeout(next,1100)}
-function finish(){saveRanking();show("result");document.getElementById("fs").textContent=score;document.getElementById("playerResult").textContent=nickname+" · "+({3:"쉬움",5:"보통",7:"어려움",9:"매우 어려움"}[size]);document.getElementById("cc").textContent=right+"/10";document.getElementById("ac").textContent=right*10+"%";document.getElementById("rk").textContent=right>=9?"MASTER":right>=7?"GOLD":right>=5?"SILVER":"BRONZE"}
+
+async function finish(){
+  show("result");
+  document.getElementById("fs").textContent=score;
+  document.getElementById("playerResult").textContent=nickname+" · "+({3:"쉬움",5:"보통",7:"어려움",9:"매우 어려움"}[size]);
+  document.getElementById("cc").textContent=right+"/10";
+  document.getElementById("ac").textContent=right*10+"%";
+  document.getElementById("rk").textContent=right>=9?"MASTER":right>=7?"GOLD":right>=5?"SILVER":"BRONZE";
+
+  try{
+    await saveRanking();
+  }catch(error){
+    console.error(error);
+    if(error.message==="DUPLICATE_NICKNAME"){
+      alert("이 닉네임은 이미 랭킹에 등록되어 있어 이번 기록은 저장되지 않았습니다.");
+    }else{
+      alert("게임 기록을 랭킹 서버에 저장하지 못했습니다.");
+    }
+  }
+}
 </script></body></html>
