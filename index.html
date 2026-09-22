@@ -1,23 +1,25 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>재활프로그램 개발</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f4f8ff;color:#14285a;font-family:Arial,"Noto Sans KR",sans-serif}button{font:inherit;cursor:pointer}.screen{display:none;min-height:100vh;padding:24px}.active{display:flex;align-items:center;justify-content:center}.card{background:#fff;border:1px solid #e2eafa;border-radius:24px;box-shadow:0 12px 40px rgba(40,80,143,.07)}.wrap{width:100%;max-width:1150px}.hero{text-align:center;padding:80px 25px}.logo{display:grid;grid-template-columns:20px 20px;gap:5px;width:45px;margin:auto}.logo i{width:20px;height:20px;border-radius:5px}.r{background:#f0444b}.y{background:#ffc52d}.b{background:#159bd7}.p{background:#9c43aa}.g{background:#38a169}.o{background:#f28c28}h1{font-size:56px;margin:22px 0 12px;letter-spacing:-3px}.hero p{color:#7180a0;font-size:18px;line-height:1.8;margin-bottom:35px}.primary{border:0;border-radius:16px;background:#6351d9;color:#fff;padding:16px 40px;font-weight:900}.danger{border:1px solid #f0b9bd;border-radius:14px;background:#fff5f5;padding:13px 22px;font-weight:800;color:#c83c45}.secondary{border:1px solid #d9e3f3;border-radius:14px;background:#fff;padding:13px 22px;font-weight:800}.title{font-size:38px;font-weight:900;margin:15px 0 8px}.sub{color:#7180a0}.diff{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:30px 0}.diff button{background:white;border:2px solid #e1e9f6;border-radius:20px;padding:25px 16px;text-align:left}.diff button:hover{border-color:#6351d9}.num{font-size:30px;font-weight:900}.diff strong{display:block;font-size:18px;margin-top:5px}.diff small{display:block;color:#7b88a4;margin-top:9px;line-height:1.5}.top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;margin-bottom:15px}.brand{font-size:25px;font-weight:900;display:flex;gap:12px;align-items:center}.info{font-weight:900;display:flex;gap:22px}.badge{background:#e7faf0;color:#0a9a59;border-radius:99px;padding:8px 14px;font-weight:900}.progress{height:7px;background:#eaf0f8;border-radius:99px;overflow:hidden;margin-bottom:15px}.progress div{height:100%;background:#6351d9;width:10%}.layout{display:grid;grid-template-columns:235px 1fr 220px;gap:15px}.side{padding:23px}.side h3{margin-top:0}.side p,.side li{color:#7180a0;line-height:1.7}.center{padding:25px;min-height:590px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}.phase{background:#edf5ff;color:#3564b4;border-radius:14px;padding:12px 20px;font-weight:900;margin-bottom:15px}.timer{font-size:25px;font-weight:900;color:#3564b4;margin-bottom:18px}.grid{display:grid;width:420px;height:420px;max-width:70vw;max-height:70vw;gap:2px;background:#18243c;border:3px solid #18243c;border-radius:5px;overflow:hidden}.cell{background:white}.red{background:#f0444b!important}.yellow{background:#ffc52d!important}.blue{background:#159bd7!important}.purple{background:#9c43aa!important}.orange{background:#f28c28!important}.blank{background:#fff;position:relative}.blank:after{content:"?";position:absolute;inset:0;display:grid;place-items:center;color:#b9c2d1;font-size:30px;font-weight:900}.answers{width:100%;max-width:620px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}.answer{background:#fff;border:2px solid #e0e8f5;border-radius:17px;padding:15px 8px;min-height:105px;font-weight:900;color:#24345b}.answer:hover{border-color:#6351d9}.swatch{width:48px;height:48px;border-radius:10px;margin:0 auto 9px}.correct{border-color:#18a968!important;background:#effcf6!important}.wrong{border-color:#e64d55!important;background:#fff2f3!important}.feedback{height:30px;margin-top:12px;font-weight:900}.ok{color:#11965d}.no{color:#df414a}.result{text-align:center;padding:70px 20px}.result h2{font-size:45px}.score{font-size:80px;font-weight:950}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:650px;margin:25px auto}.stats div{background:#f5f8fd;border-radius:17px;padding:17px}.stats strong{display:block;font-size:27px}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.ranking-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0 8px}.ranking-filter{border:2px solid #e1e9f6;border-radius:14px;background:#fff;padding:13px 10px;font-weight:900;color:#34446a}.ranking-filter.selected{border-color:#6351d9;background:#f1efff;color:#5442c7}@media(max-width:900px){.layout{grid-template-columns:1fr}.side{display:none}.diff{grid-template-columns:1fr 1fr}}@media(max-width:600px){.screen{padding:12px}.top{padding:14px}.brand{font-size:19px}.info{font-size:13px;gap:8px}.answers{grid-template-columns:1fr 1fr}.grid{width:88vw;height:88vw}.ranking-filters{grid-template-columns:1fr 1fr}.ranking-filter{padding:12px 8px}}
+*{box-sizing:border-box}body{margin:0;background:#f4f8ff;color:#14285a;font-family:Arial,"Noto Sans KR",sans-serif}button{font:inherit;cursor:pointer}.screen{display:none;min-height:100vh;padding:24px}.active{display:flex;align-items:center;justify-content:center}.card{background:#fff;border:1px solid #e2eafa;border-radius:24px;box-shadow:0 12px 40px rgba(40,80,143,.07)}.wrap{width:100%;max-width:1150px}.hero{text-align:center;padding:80px 25px}.logo{display:grid;grid-template-columns:20px 20px;gap:5px;width:45px;margin:auto}.logo i{width:20px;height:20px;border-radius:5px}.r{background:#f0444b}.y{background:#ffc52d}.b{background:#159bd7}.p{background:#9c43aa}.g{background:#38a169}.o{background:#f28c28}h1{font-size:56px;margin:22px 0 12px;letter-spacing:-3px}.hero p{color:#7180a0;font-size:18px;line-height:1.8;margin-bottom:35px}.primary{border:0;border-radius:16px;background:#6351d9;color:#fff;padding:16px 40px;font-weight:900}.danger{border:1px solid #f0b9bd;border-radius:14px;background:#fff5f5;padding:13px 22px;font-weight:800;color:#c83c45}.secondary{border:1px solid #d9e3f3;border-radius:14px;background:#fff;padding:13px 22px;font-weight:800}.title{font-size:38px;font-weight:900;margin:15px 0 8px}.sub{color:#7180a0}.diff{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:30px 0}.diff button{background:white;border:2px solid #e1e9f6;border-radius:20px;padding:25px 16px;text-align:left}.diff button:hover{border-color:#6351d9}.num{font-size:30px;font-weight:900}.diff strong{display:block;font-size:18px;margin-top:5px}.diff small{display:block;color:#7b88a4;margin-top:9px;line-height:1.5}.top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;margin-bottom:15px}.brand{font-size:25px;font-weight:900;display:flex;gap:12px;align-items:center}.info{font-weight:900;display:flex;gap:22px}.badge{background:#e7faf0;color:#0a9a59;border-radius:99px;padding:8px 14px;font-weight:900}.progress{height:7px;background:#eaf0f8;border-radius:99px;overflow:hidden;margin-bottom:15px}.progress div{height:100%;background:#6351d9;width:10%}.layout{display:grid;grid-template-columns:235px 1fr 220px;gap:15px}.side{padding:23px}.side h3{margin-top:0}.side p,.side li{color:#7180a0;line-height:1.7}.center{padding:22px;min-height:560px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}.phase{background:#edf5ff;color:#3564b4;border-radius:14px;padding:10px 18px;font-weight:900;margin-bottom:10px}.timer{font-size:24px;font-weight:900;color:#3564b4;margin-bottom:12px}.grid{display:grid;width:360px;height:360px;max-width:68vw;max-height:68vw;gap:2px;background:#18243c;border:3px solid #18243c;border-radius:5px;overflow:hidden}.cell{background:white}.red{background:#f0444b!important}.yellow{background:#ffc52d!important}.blue{background:#159bd7!important}.purple{background:#9c43aa!important}.orange{background:#f28c28!important}.blank{background:#fff;position:relative}.blank:after{content:"?";position:absolute;inset:0;display:grid;place-items:center;color:#b9c2d1;font-size:30px;font-weight:900}.answers{width:100%;max-width:760px;display:grid;gap:8px;margin-top:14px}.answer{background:#fff;border:2px solid #e0e8f5;border-radius:14px;padding:8px 4px;min-height:78px;font-weight:900;color:#24345b;min-width:0}.answer:not(:disabled):hover{border-color:#6351d9}.answer:disabled{cursor:default;opacity:1;background:#f8faff;color:#67728a}.swatch{width:38px;height:38px;border-radius:9px;margin:0 auto 6px}.correct{border-color:#18a968!important;background:#effcf6!important}.wrong{border-color:#e64d55!important;background:#fff2f3!important}.feedback{height:30px;margin-top:12px;font-weight:900}.ok{color:#11965d}.no{color:#df414a}.result{text-align:center;padding:70px 20px}.result h2{font-size:45px}.score{font-size:80px;font-weight:950}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:650px;margin:25px auto}.stats div{background:#f5f8fd;border-radius:17px;padding:17px}.stats strong{display:block;font-size:27px}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.ranking-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0 8px}.ranking-filter{border:2px solid #e1e9f6;border-radius:14px;background:#fff;padding:13px 10px;font-weight:900;color:#34446a}.ranking-filter.selected{border-color:#6351d9;background:#f1efff;color:#5442c7}.primary:disabled{opacity:.45;cursor:not-allowed}.instruction-box{max-width:760px;margin:26px auto;text-align:left;background:#f7f9ff;border:1px solid #dfe7f7;border-radius:18px;padding:24px}.instruction-box p{margin:0;color:#34446a;font-size:18px;line-height:1.9}.ack{display:flex;align-items:center;justify-content:center;gap:10px;margin:24px 0 18px;font-weight:900}.ack input{width:20px;height:20px;accent-color:#6351d9}@media(max-width:900px){.layout{grid-template-columns:1fr}.side{display:none}.diff{grid-template-columns:1fr 1fr}}@media(max-width:600px){.screen{padding:10px}.top{padding:12px}.brand{font-size:18px}.info{font-size:12px;gap:7px}.center{padding:14px;min-height:0}.phase{margin-bottom:8px;padding:9px 14px}.timer{font-size:22px;margin-bottom:9px}.grid{width:72vw;height:72vw;max-width:330px;max-height:330px}.answers{gap:5px;margin-top:10px}.answer{padding:6px 2px;min-height:64px;font-size:12px;border-radius:11px}.swatch{width:30px;height:30px;border-radius:7px;margin-bottom:4px}.feedback{height:24px;margin-top:8px;font-size:13px}.ranking-filters{grid-template-columns:1fr 1fr}.ranking-filter{padding:12px 8px}}
 </style></head><body>
 
 <section id="home" class="screen active"><div class="wrap card hero">
 <div class="logo"><i class="r"></i><i class="y"></i><i class="p"></i><i class="b"></i></div>
-<h1>재활프로그램 개발</h1><p>완성된 색깔 패턴을 5초 동안 기억하세요.<br>잠시 후 한 칸이 비어있습니다. 그 칸의 색깔을 맞혀보세요!</p>
+<h1>재활프로그램 개발</h1>
 <button class="primary" onclick="show('nickname')">게임 시작하기</button><div style="margin-top:22px;font-size:16px;font-weight:800;color:#7180a0;line-height:1.8">20222079 강인구<br>20222997 배 건</div><button class="secondary" style="margin-left:8px" onclick="renderRankings();show('ranking')">🏆 랭킹보드</button></div></section>
 
-<section id="nickname" class="screen"><div class="wrap card" style="padding:40px;max-width:620px;text-align:center"><div class="title">닉네임을 입력하세요</div><div class="sub">랭킹보드에 기록될 이름입니다.</div><input id="nicknameInput" maxlength="12" placeholder="닉네임 (최대 12자)" style="width:100%;margin:25px 0;padding:16px;border:2px solid #e1e9f6;border-radius:14px;font-size:18px;text-align:center"><br><button class="primary" onclick="saveNicknameAndGo()">난이도 선택</button><button class="secondary" style="margin-left:8px" onclick="show('home')">취소</button></div></section>
+<section id="nickname" class="screen"><div class="wrap card" style="padding:40px;max-width:620px;text-align:center"><div class="title">닉네임을 입력하세요</div><div class="sub">같은 닉네임으로 여러 번 플레이할 수 있으며, 각 단계에서는 가장 높은 점수만 랭킹에 반영됩니다.</div><input id="nicknameInput" maxlength="12" placeholder="닉네임 (최대 12자)" style="width:100%;margin:25px 0;padding:16px;border:2px solid #e1e9f6;border-radius:14px;font-size:18px;text-align:center"><br><button class="primary" onclick="saveNicknameAndGo()">다음</button><button class="secondary" style="margin-left:8px" onclick="show('home')">취소</button></div></section>
+
+<section id="instructions" class="screen"><div class="wrap card" style="padding:40px;max-width:860px;text-align:center"><div class="title">게임 플레이 방법</div><div class="instruction-box"><p>완성된 색깔 패턴을 7초 동안 기억하세요.<br>색상 선택지는 처음부터 보이며, 7초 후 한 칸이 비어지면 정답을 선택하세요!<br>플레이 한 기록은 랭킹보드에서 확인이 가능합니다! 다른사람들과 경쟁하세요!</p></div><label class="ack"><input id="instructionsCheck" type="checkbox" onchange="updateInstructionReady()"> 확인했습니다</label><div class="actions"><button id="instructionsContinue" class="primary" disabled onclick="show('difficulty')">난이도 선택</button><button class="secondary" onclick="show('nickname')">← 돌아가기</button></div></div></section>
 
 <section id="ranking" class="screen"><div class="wrap card" style="padding:30px"><div class="title">🏆 랭킹보드</div><div class="sub">보고 싶은 단계를 선택하세요. 선택한 단계 안에서 점수 순으로 순위가 표시됩니다.</div><div class="ranking-filters"><button class="ranking-filter selected" data-diff="쉬움" onclick="setRankingDifficulty('쉬움')">쉬움 · 3×3</button><button class="ranking-filter" data-diff="보통" onclick="setRankingDifficulty('보통')">보통 · 5×5</button><button class="ranking-filter" data-diff="어려움" onclick="setRankingDifficulty('어려움')">어려움 · 7×7</button><button class="ranking-filter" data-diff="매우 어려움" onclick="setRankingDifficulty('매우 어려움')">매우 어려움 · 9×9</button></div><div id="rankingTable" style="margin:18px 0 25px;overflow:auto"></div><div class="actions"><button class="secondary" onclick="show('home')">← 메인으로</button><button class="danger" onclick="resetRankings()">랭킹 초기화</button></div></div></section>
 
 <section id="difficulty" class="screen"><div class="wrap card" style="padding:30px">
 <div style="font-size:14px;font-weight:900;color:#72809d">PATTERN MATCH</div><div class="title">난이도를 선택하세요</div><div class="sub">처음에는 쉬움(3×3)으로 플레이해보세요.</div>
 <div class="diff">
-<button onclick="start(3)"><div class="num">3×3</div><strong>쉬움</strong><small>5초 기억 · 색상 3가지</small></button>
-<button onclick="start(5)"><div class="num">5×5</div><strong>보통</strong><small>5초 기억 · 색상 4가지</small></button>
+<button onclick="start(3)"><div class="num">3×3</div><strong>쉬움</strong><small>7초 기억 · 색상 3가지</small></button>
+<button onclick="start(5)"><div class="num">5×5</div><strong>보통</strong><small>7초 기억 · 색상 4가지</small></button>
 <button onclick="start(7)"><div class="num">7×7</div><strong>어려움</strong><small>7초 기억 · 색상 4가지</small></button>
 <button onclick="start(9)"><div class="num">9×9</div><strong>매우 어려움</strong><small>7초 기억 · 색상 5가지</small></button></div>
 <button class="secondary" onclick="show('home')">← 메인으로</button></div></section>
@@ -25,9 +27,9 @@
 <section id="game" class="screen"><div class="wrap">
 <div class="card top"><div class="brand"><div class="logo"><i class="r"></i><i class="y"></i><i class="p"></i><i class="b"></i></div>패턴 맞추기 <span id="badge" class="badge">쉬움 · 3×3</span></div><div class="info"><span>문제 <b id="qn">1</b>/10</span><span>점수 <b id="sc">0</b></span><button class="secondary" style="padding:8px 12px" onclick="leaveGame()">로비</button></div></div>
 <div class="progress"><div id="pg"></div></div>
-<div class="layout"><aside class="card side"><h3>💡 게임 방법</h3><p>① 완성된 모형을 <b>5초 동안</b> 기억하세요.</p><p>② 모형이 사라지고 한 칸이 비어있습니다.</p><p>③ 빈칸의 원래 <b>색깔</b>을 선택하세요.</p></aside>
-<main class="card center"><div id="phase" class="phase">완성된 모형을 기억하세요!</div><div id="timer" class="timer">5초</div><div id="grid" class="grid"></div><div id="feedback" class="feedback"></div><div id="answers" class="answers"></div></main>
-<aside class="card side"><h3>🎯 현재 문제</h3><p id="status">5초 동안 모형을 자세히 살펴보세요.</p></aside></div></div></section>
+<div class="layout"><aside class="card side"><h3>💡 게임 방법</h3><p>① 완성된 모형을 <b>7초 동안</b> 기억하세요.</p><p>② 색상 선택지는 처음부터 보이지만 7초 동안은 선택할 수 없습니다.</p><p>③ 한 칸이 비어지면 5초 안에 원래 <b>색깔</b>을 선택하세요.</p></aside>
+<main class="card center"><div id="phase" class="phase">완성된 모형을 기억하세요!</div><div id="timer" class="timer">7초</div><div id="grid" class="grid"></div><div id="feedback" class="feedback"></div><div id="answers" class="answers"></div></main>
+<aside class="card side"><h3>🎯 현재 문제</h3><p id="status">7초 동안 모형을 자세히 살펴보세요.</p></aside></div></div></section>
 
 <section id="result" class="screen"><div class="wrap card result"><div style="font-size:48px">🏆</div><h2>게임 종료!</h2><div id="fs" class="score">0</div><div>점</div><div id="playerResult" style="font-weight:900;margin-top:8px"></div><div class="stats"><div><strong id="cc">0/10</strong>정답</div><div><strong id="ac">0%</strong>정확도</div><div><strong id="rk">BRONZE</strong>등급</div></div><div class="actions"><button class="primary" onclick="start(size)">다시 플레이</button><button class="secondary" onclick="show('difficulty')">난이도 변경</button><button class="secondary" onclick="show('ranking');renderRankings()">랭킹보드</button><button class="secondary" onclick="show('home')">메인으로</button></div></div></section>
 
@@ -104,52 +106,36 @@ async function getRankings(difficulty=rankingDifficulty){
   return data||[];
 }
 
-async function nicknameExists(v){
-  const key=normalizeNickname(v);
-  const {data,error}=await supabaseClient
-    .from("rankings")
-    .select("nickname")
-    .limit(1000);
-  if(error)throw error;
-  return (data||[]).some(r=>normalizeNickname(String(r.nickname||""))===key);
-}
-
-async function saveNicknameAndGo(){
+function saveNicknameAndGo(){
   const v=document.getElementById("nicknameInput").value.trim();
   if(!v){alert("닉네임을 입력해주세요.");return;}
+  nickname=v;
+  const check=document.getElementById("instructionsCheck");
+  if(check)check.checked=false;
+  updateInstructionReady();
+  show("instructions");
+}
 
-  try{
-    const duplicate=await nicknameExists(v);
-    if(duplicate){
-      alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
-      document.getElementById("nicknameInput").focus();
-      return;
-    }
-    nickname=v;
-    show("difficulty");
-  }catch(error){
-    console.error(error);
-    alert("랭킹 서버 연결 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-  }
+function updateInstructionReady(){
+  const check=document.getElementById("instructionsCheck");
+  const button=document.getElementById("instructionsContinue");
+  if(button)button.disabled=!(check&&check.checked);
 }
 
 function start(n){if(!nickname){show("nickname");return}size=n;q=0;score=0;right=0;previousPalette="";gameStartedAt=Date.now();returningToLobby=false;document.getElementById("badge").textContent=({3:"쉬움 · 3×3",5:"보통 · 5×5",7:"어려움 · 7×7",9:"매우 어려움 · 9×9"})[n];show("game");next()}
 function leaveGame(){clearInterval(timer);clearInterval(answerTimer);returningToLobby=true;show("difficulty")}
 
 async function saveRanking(){
-  const row={
-    nickname:nickname,
-    difficulty:{3:"쉬움",5:"보통",7:"어려움",9:"매우 어려움"}[size],
-    grid_size:size,
-    score:score,
-    accuracy:right*10
-  };
-
-  const {error}=await supabaseClient.from("rankings").insert(row);
-  if(error){
-    if(error.code==="23505")throw new Error("DUPLICATE_NICKNAME");
-    throw error;
-  }
+  const difficulty={3:"쉬움",5:"보통",7:"어려움",9:"매우 어려움"}[size];
+  const {data,error}=await supabaseClient.rpc("save_best_ranking",{
+    p_nickname:nickname,
+    p_difficulty:difficulty,
+    p_grid_size:size,
+    p_score:score,
+    p_accuracy:right*10
+  });
+  if(error)throw error;
+  return data;
 }
 
 function setRankingDifficulty(difficulty){
@@ -212,14 +198,57 @@ function draw(a,missing){
  a.forEach((c,i)=>{let x=document.createElement("div");x.className="cell "+(i===missing?"blank":c);g.appendChild(x)})
 }
 function memory(a,missing){
- clearInterval(timer);clearInterval(answerTimer);let duration=(size>=7?7:5),left=duration;document.getElementById("timer").textContent=duration+"초";document.getElementById("phase").textContent="완성된 모형을 기억하세요!";document.getElementById("status").textContent=duration+"초 동안 모형을 자세히 살펴보세요.";
- timer=setInterval(()=>{left--;document.getElementById("timer").textContent=left+"초";if(left<=0){clearInterval(timer);draw(a,missing);document.getElementById("phase").textContent="빈칸의 색깔을 선택하세요!";document.getElementById("status").textContent="5초 안에 빈칸의 색깔을 골라보세요.";answers()}},1000)
+ clearInterval(timer);clearInterval(answerTimer);
+ const duration=7;
+ let left=duration;
+ prepareAnswers();
+ document.getElementById("timer").textContent=duration+"초";
+ document.getElementById("phase").textContent="완성된 모형을 기억하세요!";
+ document.getElementById("status").textContent="7초 동안 모형을 자세히 살펴보세요. 아래 색상 선택지는 잠시 후 선택할 수 있습니다.";
+ timer=setInterval(()=>{
+   left--;
+   document.getElementById("timer").textContent=left+"초";
+   if(left<=0){
+     clearInterval(timer);
+     draw(a,missing);
+     document.getElementById("phase").textContent="빈칸의 색깔을 선택하세요!";
+     document.getElementById("status").textContent="5초 안에 빈칸의 색깔을 골라보세요.";
+     activateAnswers();
+   }
+ },1000)
 }
-function answers(){
- clearInterval(answerTimer);answerStart=Date.now();let el=document.getElementById("answers"),choices=shuffle([...sets[size]]);
- let left=5;document.getElementById("timer").textContent="5초";
- choices.forEach(c=>{let b=document.createElement("button");b.className="answer";b.innerHTML=`<div class="swatch ${C[c][1]}"></div>${C[c][0]}`;b.onclick=()=>check(c,b);el.appendChild(b)})
- answerTimer=setInterval(()=>{let elapsed=(Date.now()-answerStart)/1000;let remain=Math.max(0,5-Math.ceil(elapsed));document.getElementById("timer").textContent=remain+"초";if(elapsed>=5){clearInterval(answerTimer);if(!locked)timeoutAnswer()}},100)
+
+function prepareAnswers(){
+ clearInterval(answerTimer);
+ const el=document.getElementById("answers");
+ const choices=shuffle([...sets[size]]);
+ el.innerHTML="";
+ el.style.gridTemplateColumns=`repeat(${choices.length},minmax(0,1fr))`;
+ choices.forEach(c=>{
+   const b=document.createElement("button");
+   b.className="answer";
+   b.disabled=true;
+   b.dataset.color=c;
+   b.innerHTML=`<div class="swatch ${C[c][1]}"></div>${C[c][0]}`;
+   b.onclick=()=>check(c,b);
+   el.appendChild(b);
+ });
+}
+
+function activateAnswers(){
+ clearInterval(answerTimer);
+ answerStart=Date.now();
+ document.querySelectorAll(".answer").forEach(b=>b.disabled=false);
+ document.getElementById("timer").textContent="5초";
+ answerTimer=setInterval(()=>{
+   const elapsed=(Date.now()-answerStart)/1000;
+   const remain=Math.max(0,5-Math.ceil(elapsed));
+   document.getElementById("timer").textContent=remain+"초";
+   if(elapsed>=5){
+     clearInterval(answerTimer);
+     if(!locked)timeoutAnswer();
+   }
+ },100);
 }
 function check(c,b){
  if(locked)return;clearInterval(answerTimer);locked=true;
@@ -242,11 +271,7 @@ async function finish(){
     await saveRanking();
   }catch(error){
     console.error(error);
-    if(error.message==="DUPLICATE_NICKNAME"){
-      alert("이 닉네임은 이미 랭킹에 등록되어 있어 이번 기록은 저장되지 않았습니다.");
-    }else{
-      alert("게임 기록을 랭킹 서버에 저장하지 못했습니다.");
-    }
+    alert("게임 기록을 랭킹 서버에 저장하지 못했습니다.");
   }
 }
 </script></body></html>
