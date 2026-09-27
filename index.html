@@ -1,277 +1,1310 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>재활프로그램 개발</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f4f8ff;color:#14285a;font-family:Arial,"Noto Sans KR",sans-serif}button{font:inherit;cursor:pointer}.screen{display:none;min-height:100vh;padding:24px}.active{display:flex;align-items:center;justify-content:center}.card{background:#fff;border:1px solid #e2eafa;border-radius:24px;box-shadow:0 12px 40px rgba(40,80,143,.07)}.wrap{width:100%;max-width:1150px}.hero{text-align:center;padding:80px 25px}.logo{display:grid;grid-template-columns:20px 20px;gap:5px;width:45px;margin:auto}.logo i{width:20px;height:20px;border-radius:5px}.r{background:#f0444b}.y{background:#ffc52d}.b{background:#159bd7}.p{background:#9c43aa}.g{background:#38a169}.o{background:#f28c28}h1{font-size:56px;margin:22px 0 12px;letter-spacing:-3px}.hero p{color:#7180a0;font-size:18px;line-height:1.8;margin-bottom:35px}.primary{border:0;border-radius:16px;background:#6351d9;color:#fff;padding:16px 40px;font-weight:900}.danger{border:1px solid #f0b9bd;border-radius:14px;background:#fff5f5;padding:13px 22px;font-weight:800;color:#c83c45}.secondary{border:1px solid #d9e3f3;border-radius:14px;background:#fff;padding:13px 22px;font-weight:800}.title{font-size:38px;font-weight:900;margin:15px 0 8px}.sub{color:#7180a0}.diff{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:30px 0}.diff button{background:white;border:2px solid #e1e9f6;border-radius:20px;padding:25px 16px;text-align:left}.diff button:hover{border-color:#6351d9}.num{font-size:30px;font-weight:900}.diff strong{display:block;font-size:18px;margin-top:5px}.diff small{display:block;color:#7b88a4;margin-top:9px;line-height:1.5}.top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;margin-bottom:15px}.brand{font-size:25px;font-weight:900;display:flex;gap:12px;align-items:center}.info{font-weight:900;display:flex;gap:22px}.badge{background:#e7faf0;color:#0a9a59;border-radius:99px;padding:8px 14px;font-weight:900}.progress{height:7px;background:#eaf0f8;border-radius:99px;overflow:hidden;margin-bottom:15px}.progress div{height:100%;background:#6351d9;width:10%}.layout{display:grid;grid-template-columns:235px 1fr 220px;gap:15px}.side{padding:23px}.side h3{margin-top:0}.side p,.side li{color:#7180a0;line-height:1.7}.center{padding:22px;min-height:560px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}.phase{background:#edf5ff;color:#3564b4;border-radius:14px;padding:10px 18px;font-weight:900;margin-bottom:10px}.timer{font-size:24px;font-weight:900;color:#3564b4;margin-bottom:12px}.grid{display:grid;width:360px;height:360px;max-width:68vw;max-height:68vw;gap:2px;background:#18243c;border:3px solid #18243c;border-radius:5px;overflow:hidden}.cell{background:white}.red{background:#f0444b!important}.yellow{background:#ffc52d!important}.blue{background:#159bd7!important}.purple{background:#9c43aa!important}.orange{background:#f28c28!important}.blank{background:#fff;position:relative}.blank:after{content:"?";position:absolute;inset:0;display:grid;place-items:center;color:#b9c2d1;font-size:30px;font-weight:900}.answers{width:100%;max-width:760px;display:grid;gap:8px;margin-top:14px}.answer{background:#fff;border:2px solid #e0e8f5;border-radius:14px;padding:8px 4px;min-height:78px;font-weight:900;color:#24345b;min-width:0}.answer:not(:disabled):hover{border-color:#6351d9}.answer:disabled{cursor:default;opacity:1;background:#f8faff;color:#67728a}.swatch{width:38px;height:38px;border-radius:9px;margin:0 auto 6px}.correct{border-color:#18a968!important;background:#effcf6!important}.wrong{border-color:#e64d55!important;background:#fff2f3!important}.feedback{height:30px;margin-top:12px;font-weight:900}.ok{color:#11965d}.no{color:#df414a}.result{text-align:center;padding:70px 20px}.result h2{font-size:45px}.score{font-size:80px;font-weight:950}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:650px;margin:25px auto}.stats div{background:#f5f8fd;border-radius:17px;padding:17px}.stats strong{display:block;font-size:27px}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.ranking-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0 8px}.ranking-filter{border:2px solid #e1e9f6;border-radius:14px;background:#fff;padding:13px 10px;font-weight:900;color:#34446a}.ranking-filter.selected{border-color:#6351d9;background:#f1efff;color:#5442c7}.primary:disabled{opacity:.45;cursor:not-allowed}.instruction-box{max-width:760px;margin:26px auto;text-align:left;background:#f7f9ff;border:1px solid #dfe7f7;border-radius:18px;padding:24px}.instruction-box p{margin:0;color:#34446a;font-size:18px;line-height:1.9}.ack{display:flex;align-items:center;justify-content:center;gap:10px;margin:24px 0 18px;font-weight:900}.ack input{width:20px;height:20px;accent-color:#6351d9}@media(max-width:900px){.layout{grid-template-columns:1fr}.side{display:none}.diff{grid-template-columns:1fr 1fr}}@media(max-width:600px){.screen{padding:10px}.top{padding:12px}.brand{font-size:18px}.info{font-size:12px;gap:7px}.center{padding:14px;min-height:0}.phase{margin-bottom:8px;padding:9px 14px}.timer{font-size:22px;margin-bottom:9px}.grid{width:72vw;height:72vw;max-width:330px;max-height:330px}.answers{gap:5px;margin-top:10px}.answer{padding:6px 2px;min-height:64px;font-size:12px;border-radius:11px}.swatch{width:30px;height:30px;border-radius:7px;margin-bottom:4px}.feedback{height:24px;margin-top:8px;font-size:13px}.ranking-filters{grid-template-columns:1fr 1fr}.ranking-filter{padding:12px 8px}}
-</style></head><body>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f8ff;color:#14285a;font-family:Arial,"Noto Sans KR",sans-serif}
+button,input{font:inherit}button{cursor:pointer}
+.screen{display:none;min-height:100vh;padding:24px}.active{display:flex;align-items:center;justify-content:center}
+.card{background:#fff;border:1px solid #e2eafa;border-radius:24px;box-shadow:0 12px 40px rgba(40,80,143,.07)}
+.wrap{width:100%;max-width:1150px}.hero{text-align:center;padding:80px 25px}
+.logo{display:grid;grid-template-columns:20px 20px;gap:5px;width:45px;margin:auto}.logo i{width:20px;height:20px;border-radius:5px}
+.r{background:#f0444b}.y{background:#ffc52d}.b{background:#159bd7}.p{background:#9c43aa}.g{background:#38a169}.o{background:#f28c28}
+h1{font-size:56px;margin:22px 0 12px;letter-spacing:-3px}
+.primary{border:0;border-radius:16px;background:#6351d9;color:#fff;padding:16px 40px;font-weight:900}
+.primary:disabled{opacity:.45;cursor:not-allowed}.secondary{border:1px solid #d9e3f3;border-radius:14px;background:#fff;padding:13px 22px;font-weight:800}.danger{border:1px solid #f0b9bd;border-radius:14px;background:#fff5f5;padding:13px 22px;font-weight:800;color:#c83c45}
+.title{font-size:38px;font-weight:900;margin:15px 0 8px}.sub{color:#7180a0;line-height:1.6}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.game-select{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:30px 0}.game-card{border:2px solid #e1e9f6;border-radius:22px;background:#fff;padding:28px;text-align:left}.game-card:hover{border-color:#6351d9}.game-icon{font-size:44px}.game-card strong{display:block;font-size:23px;margin:12px 0 8px}.game-card p{color:#7180a0;line-height:1.7;margin:0}
+.instruction-box{max-width:760px;margin:26px auto;text-align:left;background:#f7f9ff;border:1px solid #dfe7f7;border-radius:18px;padding:24px}.instruction-box p{margin:0;color:#34446a;font-size:18px;line-height:1.9}.ack{display:flex;align-items:center;justify-content:center;gap:10px;margin:24px 0 18px;font-weight:900}.ack input{width:20px;height:20px;accent-color:#6351d9}
+.diff{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:30px 0}.diff button{background:#fff;border:2px solid #e1e9f6;border-radius:20px;padding:25px 16px;text-align:left}.diff button:hover{border-color:#6351d9}.num{font-size:30px;font-weight:900}.diff strong{display:block;font-size:18px;margin-top:5px}.diff small{display:block;color:#7b88a4;margin-top:9px;line-height:1.5}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;margin-bottom:15px}.brand{font-size:25px;font-weight:900;display:flex;gap:12px;align-items:center}.info{font-weight:900;display:flex;gap:22px;align-items:center}.badge{background:#e7faf0;color:#0a9a59;border-radius:99px;padding:8px 14px;font-weight:900}
+.progress{height:7px;background:#eaf0f8;border-radius:99px;overflow:hidden;margin-bottom:15px}.progress div{height:100%;background:#6351d9;width:10%}
+.layout{display:grid;grid-template-columns:235px 1fr 220px;gap:15px}.side{padding:23px}.side h3{margin-top:0}.side p,.side li{color:#7180a0;line-height:1.7}.center{padding:22px;min-height:560px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}.phase{background:#edf5ff;color:#3564b4;border-radius:14px;padding:10px 18px;font-weight:900;margin-bottom:10px}.timer{font-size:24px;font-weight:900;color:#3564b4;margin-bottom:12px}
+.pattern-grid{display:grid;width:360px;height:360px;max-width:68vw;max-height:68vw;gap:2px;background:#18243c;border:3px solid #18243c;border-radius:5px;overflow:hidden}.cell{background:white}.red{background:#f0444b!important}.yellow{background:#ffc52d!important}.blue{background:#159bd7!important}.purple{background:#9c43aa!important}.orange{background:#f28c28!important}.green{background:#38a169!important}.blank{background:#fff;position:relative}.blank:after{content:"?";position:absolute;inset:0;display:grid;place-items:center;color:#b9c2d1;font-size:30px;font-weight:900}
+.answers{width:100%;max-width:760px;display:grid;gap:8px;margin-top:14px}.answer{background:#fff;border:2px solid #e0e8f5;border-radius:14px;padding:8px 4px;min-height:78px;font-weight:900;color:#24345b;min-width:0}.answer:not(:disabled):hover{border-color:#6351d9}.answer:disabled{cursor:default;opacity:1;background:#f8faff;color:#67728a}.swatch{width:38px;height:38px;border-radius:9px;margin:0 auto 6px}.correct{border-color:#18a968!important;background:#effcf6!important}.wrong{border-color:#e64d55!important;background:#fff2f3!important}.feedback{height:30px;margin-top:12px;font-weight:900}.ok{color:#11965d}.no{color:#df414a}
+.result{text-align:center;padding:70px 20px}.result h2{font-size:45px}.score{font-size:80px;font-weight:950}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:650px;margin:25px auto}.stats div{background:#f5f8fd;border-radius:17px;padding:17px}.stats strong{display:block;font-size:27px}
+.ranking-filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0 8px}.ranking-filter{border:2px solid #e1e9f6;border-radius:14px;background:#fff;padding:13px 10px;font-weight:900;color:#34446a}.ranking-filter.selected{border-color:#6351d9;background:#f1efff;color:#5442c7}
+.ranking-game-tabs{display:flex;justify-content:flex-start;gap:8px;flex-wrap:wrap;margin-bottom:12px}.ranking-game-tab{border:2px solid #e1e9f6;border-radius:14px;background:#fff;padding:11px 16px;font-weight:900;color:#34446a}.ranking-game-tab.selected{border-color:#6351d9;background:#f1efff;color:#5442c7}.ranking-game-label{font-size:13px;font-weight:900;color:#72809d;margin-bottom:7px;text-align:left}.cube-series-score{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:620px;margin:14px auto}.cube-series-score div{background:#eef3ff;border-radius:14px;padding:11px 8px;font-weight:800}.cube-series-score strong{display:block;font-size:22px;margin-bottom:3px}
+
+/* 과일 개수 세기 */
+.fruit-center{padding:22px;min-height:470px;text-align:center}.fruit-stage-wrap{overflow:hidden;border:1px solid #e1e9f6;border-radius:20px;background:#fff;margin:18px auto;max-width:820px}.fruit-stage-head{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid #e5ebf5;font-weight:800}.fruit-stage{position:relative;height:230px;overflow:hidden;background:#f7f9ff}.fruit{position:absolute;right:-70px;line-height:1;user-select:none;pointer-events:none;z-index:10}.fruit-blind{position:absolute;top:0;bottom:0;width:0;z-index:20;background:#fff;pointer-events:none}.fruit-blind.left{left:0;border-right:1px solid #dfe7f7}.fruit-blind.right{right:0;border-left:1px solid #dfe7f7}.fruit-window{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);z-index:21;pointer-events:none;border-left:1px dashed transparent;border-right:1px dashed transparent}
+.fruit-middle .fruit-blind{width:15%}.fruit-middle .fruit-window{width:70%;border-color:#cbd7ec}.fruit-normal .fruit-blind{width:25%}.fruit-normal .fruit-window{width:50%;border-color:#cbd7ec}.fruit-extreme .fruit-blind{width:35%}.fruit-extreme .fruit-window{width:30%;border-color:#cbd7ec}
+.fruit-answer{display:none;max-width:620px;margin:18px auto;background:#f7f9ff;border:1px solid #dfe7f7;border-radius:18px;padding:20px}.fruit-answer.show{display:block}.fruit-answer-grid{display:flex;justify-content:center;align-items:end;gap:12px;flex-wrap:wrap}.fruit-answer label{font-weight:900;text-align:left}.fruit-answer input{display:block;margin-top:6px;width:110px;padding:12px;border:2px solid #e1e9f6;border-radius:12px;font-size:18px}.fruit-result{max-width:620px;margin:14px auto 0;padding:16px;border-radius:16px;background:#f7f9ff;display:none}.fruit-result.show{display:block}
+
+/* 큐브 조각하기 */
+.cube-center{padding:22px;text-align:center;min-height:560px}.cube-board{display:grid;grid-template-columns:minmax(250px,.8fr) minmax(360px,1.2fr);gap:18px;max-width:980px;margin:18px auto}.cube-single-board{max-width:690px;margin:18px auto}.cube-focus-panel{padding:18px 18px 14px}.cube-panel{background:#f7f9ff;border:1px solid #dfe7f7;border-radius:20px;padding:16px}.cube-panel h3{margin:0 0 10px;font-size:18px}.cube-canvas{display:block;width:100%;height:auto;border-radius:16px;background:linear-gradient(180deg,#fbfcff,#e9f0fb);touch-action:none;user-select:none;-webkit-user-select:none}
+.cube-canvas.cube-rotatable{cursor:grab}
+.cube-canvas.cube-rotatable.dragging{cursor:grabbing}
+.cube-canvas.cube-rotatable:focus{outline:3px solid rgba(91,73,214,.18);outline-offset:2px}.cube-meta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}.cube-pill{background:#eef1ff;color:#5142c5;border-radius:999px;padding:8px 13px;font-weight:900;font-size:13px}.cube-controls{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:12px 0}.cube-result{max-width:680px;margin:16px auto 0;padding:18px;border-radius:17px;background:#f7f9ff;border:1px solid #dfe7f7;display:none}.cube-result.show{display:block}.cube-note{color:#7180a0;font-size:13px;line-height:1.6;margin-top:8px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.side{display:none}.diff{grid-template-columns:1fr 1fr}.game-select{grid-template-columns:1fr 1fr}.cube-board{grid-template-columns:1fr}}
+@media(max-width:600px){.screen{padding:10px}h1{font-size:42px}.game-select{grid-template-columns:1fr}.top{padding:12px}.brand{font-size:18px}.info{font-size:12px;gap:7px}.center{padding:14px;min-height:0}.phase{margin-bottom:8px;padding:9px 14px}.timer{font-size:22px;margin-bottom:9px}.pattern-grid{width:72vw;height:72vw;max-width:330px;max-height:330px}.answers{gap:5px;margin-top:10px}.answer{padding:6px 2px;min-height:64px;font-size:12px;border-radius:11px}.swatch{width:30px;height:30px;border-radius:7px;margin-bottom:4px}.feedback{height:24px;margin-top:8px;font-size:13px}.ranking-filters{grid-template-columns:1fr 1fr}.ranking-filter{padding:12px 8px}.fruit-stage{height:190px}.fruit{font-size:36px!important}.fruit-middle .fruit-blind{width:14%}.fruit-middle .fruit-window{width:72%}.fruit-normal .fruit-blind{width:24%}.fruit-normal .fruit-window{width:52%}.fruit-extreme .fruit-blind{width:34%}.fruit-extreme .fruit-window{width:32%}}
+</style>
+</head>
+<body>
 
 <section id="home" class="screen active"><div class="wrap card hero">
-<div class="logo"><i class="r"></i><i class="y"></i><i class="p"></i><i class="b"></i></div>
-<h1>재활프로그램 개발</h1>
-<button class="primary" onclick="show('nickname')">게임 시작하기</button><div style="margin-top:22px;font-size:16px;font-weight:800;color:#7180a0;line-height:1.8">20222079 강인구<br>20222997 배 건</div><button class="secondary" style="margin-left:8px" onclick="renderRankings();show('ranking')">🏆 랭킹보드</button></div></section>
+  <div class="logo"><i class="r"></i><i class="y"></i><i class="p"></i><i class="b"></i></div>
+  <h1>재활프로그램 개발</h1>
+  <button class="primary" onclick="show('nickname')">게임 시작하기</button>
+  <div style="margin-top:22px;font-size:16px;font-weight:800;color:#7180a0;line-height:1.8">20222079 강인구<br>20222997 배 건</div>
+  <button class="secondary" style="margin-left:8px" onclick="openRanking('pattern')">🏆 랭킹보드</button>
+</div></section>
 
-<section id="nickname" class="screen"><div class="wrap card" style="padding:40px;max-width:620px;text-align:center"><div class="title">닉네임을 입력하세요</div><div class="sub">같은 닉네임으로 여러 번 플레이할 수 있으며, 각 단계에서는 가장 높은 점수만 랭킹에 반영됩니다.</div><input id="nicknameInput" maxlength="12" placeholder="닉네임 (최대 12자)" style="width:100%;margin:25px 0;padding:16px;border:2px solid #e1e9f6;border-radius:14px;font-size:18px;text-align:center"><br><button class="primary" onclick="saveNicknameAndGo()">다음</button><button class="secondary" style="margin-left:8px" onclick="show('home')">취소</button></div></section>
+<section id="nickname" class="screen"><div class="wrap card" style="padding:40px;max-width:620px;text-align:center">
+  <div class="title">닉네임을 입력하세요</div>
+  <div class="sub">닉네임을 입력한 뒤 플레이할 게임을 선택합니다.</div>
+  <input id="nicknameInput" maxlength="12" placeholder="닉네임 (최대 12자)" style="width:100%;margin:25px 0;padding:16px;border:2px solid #e1e9f6;border-radius:14px;font-size:18px;text-align:center">
+  <br><button class="primary" onclick="saveNicknameAndGo()">게임 선택</button><button class="secondary" style="margin-left:8px" onclick="show('home')">취소</button>
+</div></section>
 
-<section id="instructions" class="screen"><div class="wrap card" style="padding:40px;max-width:860px;text-align:center"><div class="title">게임 플레이 방법</div><div class="instruction-box"><p>완성된 색깔 패턴을 7초 동안 기억하세요.<br>색상 선택지는 처음부터 보이며, 7초 후 한 칸이 비어지면 정답을 선택하세요!<br>플레이 한 기록은 랭킹보드에서 확인이 가능합니다! 다른사람들과 경쟁하세요!</p></div><label class="ack"><input id="instructionsCheck" type="checkbox" onchange="updateInstructionReady()"> 확인했습니다</label><div class="actions"><button id="instructionsContinue" class="primary" disabled onclick="show('difficulty')">난이도 선택</button><button class="secondary" onclick="show('nickname')">← 돌아가기</button></div></div></section>
+<section id="gameSelect" class="screen"><div class="wrap card" style="padding:40px;max-width:940px">
+  <div class="title" style="text-align:center">게임을 선택하세요</div>
+  <div class="sub" style="text-align:center">선택한 게임의 플레이 방법을 확인한 뒤 난이도를 고를 수 있습니다.</div>
+  <div class="game-select">
+    <button class="game-card" onclick="selectGame('pattern')"><div class="game-icon">🎨</div><strong>색깔 패턴 맞추기</strong><p>완성된 색깔 패턴을 기억한 뒤 사라진 한 칸의 원래 색을 맞히는 게임입니다.</p></button>
+    <button class="game-card" onclick="selectGame('fruit')"><div class="game-icon">🍎🍌</div><strong>과일 개수 세기</strong><p>지나가는 사과와 바나나의 개수를 각각 세고 기억한 뒤 정답을 입력하는 게임입니다.</p></button>
+    <button class="game-card" onclick="selectGame('cube')"><div class="game-icon">🧊🔨</div><strong>큐브 조각하기</strong><p>목표 3D 큐브 모양을 보고 필요 없는 블록을 제거해 똑같은 형태로 만드는 게임입니다.</p></button>
+  </div>
+  <div class="actions"><button class="secondary" onclick="show('nickname')">← 닉네임 변경</button><button class="secondary" onclick="openRanking('pattern')">🏆 랭킹보드</button><button class="secondary" onclick="show('home')">메인으로</button></div>
+</div></section>
 
-<section id="ranking" class="screen"><div class="wrap card" style="padding:30px"><div class="title">🏆 랭킹보드</div><div class="sub">보고 싶은 단계를 선택하세요. 선택한 단계 안에서 점수 순으로 순위가 표시됩니다.</div><div class="ranking-filters"><button class="ranking-filter selected" data-diff="쉬움" onclick="setRankingDifficulty('쉬움')">쉬움 · 3×3</button><button class="ranking-filter" data-diff="보통" onclick="setRankingDifficulty('보통')">보통 · 5×5</button><button class="ranking-filter" data-diff="어려움" onclick="setRankingDifficulty('어려움')">어려움 · 7×7</button><button class="ranking-filter" data-diff="매우 어려움" onclick="setRankingDifficulty('매우 어려움')">매우 어려움 · 9×9</button></div><div id="rankingTable" style="margin:18px 0 25px;overflow:auto"></div><div class="actions"><button class="secondary" onclick="show('home')">← 메인으로</button><button class="danger" onclick="resetRankings()">랭킹 초기화</button></div></div></section>
+<section id="instructions" class="screen"><div class="wrap card" style="padding:40px;max-width:860px;text-align:center">
+  <div id="instructionTitle" class="title">게임 플레이 방법</div>
+  <div class="instruction-box"><p id="instructionText"></p></div>
+  <label class="ack"><input id="instructionsCheck" type="checkbox" onchange="updateInstructionReady()"> 확인했습니다</label>
+  <div class="actions"><button id="instructionsContinue" class="primary" disabled onclick="goToDifficulty()">난이도 선택</button><button class="secondary" onclick="show('gameSelect')">← 게임 선택</button></div>
+</div></section>
 
 <section id="difficulty" class="screen"><div class="wrap card" style="padding:30px">
-<div style="font-size:14px;font-weight:900;color:#72809d">PATTERN MATCH</div><div class="title">난이도를 선택하세요</div><div class="sub">처음에는 쉬움(3×3)으로 플레이해보세요.</div>
-<div class="diff">
-<button onclick="start(3)"><div class="num">3×3</div><strong>쉬움</strong><small>7초 기억 · 색상 3가지</small></button>
-<button onclick="start(5)"><div class="num">5×5</div><strong>보통</strong><small>7초 기억 · 색상 4가지</small></button>
-<button onclick="start(7)"><div class="num">7×7</div><strong>어려움</strong><small>7초 기억 · 색상 4가지</small></button>
-<button onclick="start(9)"><div class="num">9×9</div><strong>매우 어려움</strong><small>7초 기억 · 색상 5가지</small></button></div>
-<button class="secondary" onclick="show('home')">← 메인으로</button></div></section>
+  <div id="difficultyKicker" style="font-size:14px;font-weight:900;color:#72809d">PATTERN MATCH</div>
+  <div class="title">난이도를 선택하세요</div>
+  <div id="difficultySub" class="sub"></div>
+  <div id="difficultyOptions" class="diff"></div>
+  <button class="secondary" onclick="show('gameSelect')">← 게임 선택</button>
+</div></section>
 
-<section id="game" class="screen"><div class="wrap">
-<div class="card top"><div class="brand"><div class="logo"><i class="r"></i><i class="y"></i><i class="p"></i><i class="b"></i></div>패턴 맞추기 <span id="badge" class="badge">쉬움 · 3×3</span></div><div class="info"><span>문제 <b id="qn">1</b>/10</span><span>점수 <b id="sc">0</b></span><button class="secondary" style="padding:8px 12px" onclick="leaveGame()">로비</button></div></div>
-<div class="progress"><div id="pg"></div></div>
-<div class="layout"><aside class="card side"><h3>💡 게임 방법</h3><p>① 완성된 모형을 <b>7초 동안</b> 기억하세요.</p><p>② 색상 선택지는 처음부터 보이지만 7초 동안은 선택할 수 없습니다.</p><p>③ 한 칸이 비어지면 5초 안에 원래 <b>색깔</b>을 선택하세요.</p></aside>
-<main class="card center"><div id="phase" class="phase">완성된 모형을 기억하세요!</div><div id="timer" class="timer">7초</div><div id="grid" class="grid"></div><div id="feedback" class="feedback"></div><div id="answers" class="answers"></div></main>
-<aside class="card side"><h3>🎯 현재 문제</h3><p id="status">7초 동안 모형을 자세히 살펴보세요.</p></aside></div></div></section>
+<section id="ranking" class="screen"><div class="wrap card" style="padding:30px">
+  <div class="ranking-game-label">게임 구분</div>
+  <div class="ranking-game-tabs">
+    <button id="rankingPatternTab" class="ranking-game-tab selected" onclick="setRankingGame('pattern')">🎨 색맞추기</button>
+    <button id="rankingCubeTab" class="ranking-game-tab" onclick="setRankingGame('cube')">🧊 블록깎기</button>
+  </div>
+  <div id="rankingTitle" class="title">🏆 색맞추기 랭킹보드</div>
+  <div id="rankingSub" class="sub">난이도를 선택하면 해당 난이도의 점수 순위가 표시됩니다.</div>
+  <div id="rankingFilters" class="ranking-filters"></div>
+  <div id="rankingTable" style="margin:18px 0 25px;overflow:auto"></div>
+  <div class="actions"><button class="secondary" onclick="show('gameSelect')">← 게임 선택</button><button class="secondary" onclick="show('home')">메인으로</button><button class="danger" onclick="resetRankings()">랭킹 초기화</button></div>
+</div></section>
 
-<section id="result" class="screen"><div class="wrap card result"><div style="font-size:48px">🏆</div><h2>게임 종료!</h2><div id="fs" class="score">0</div><div>점</div><div id="playerResult" style="font-weight:900;margin-top:8px"></div><div class="stats"><div><strong id="cc">0/10</strong>정답</div><div><strong id="ac">0%</strong>정확도</div><div><strong id="rk">BRONZE</strong>등급</div></div><div class="actions"><button class="primary" onclick="start(size)">다시 플레이</button><button class="secondary" onclick="show('difficulty')">난이도 변경</button><button class="secondary" onclick="show('ranking');renderRankings()">랭킹보드</button><button class="secondary" onclick="show('home')">메인으로</button></div></div></section>
+<section id="patternGame" class="screen"><div class="wrap">
+  <div class="card top"><div class="brand"><div class="logo"><i class="r"></i><i class="y"></i><i class="p"></i><i class="b"></i></div>패턴 맞추기 <span id="badge" class="badge">쉬움 · 3×3</span></div><div class="info"><span>문제 <b id="qn">1</b>/10</span><span>점수 <b id="sc">0</b></span><button class="secondary" style="padding:8px 12px" onclick="leavePatternGame()">로비</button></div></div>
+  <div class="progress"><div id="pg"></div></div>
+  <div class="layout"><aside class="card side"><h3>💡 게임 방법</h3><p>① 완성된 모형을 <b>7초 동안</b> 기억하세요.</p><p>② 색상 선택지는 처음부터 보이지만 7초 동안은 선택할 수 없습니다.</p><p>③ 한 칸이 비어지면 10초 안에 원래 <b>색깔</b>을 선택하세요.</p></aside>
+  <main class="card center"><div id="phase" class="phase">완성된 모형을 기억하세요!</div><div id="timer" class="timer">7초</div><div id="grid" class="pattern-grid"></div><div id="feedback" class="feedback"></div><div id="answers" class="answers"></div></main>
+  <aside class="card side"><h3>🎯 현재 문제</h3><p id="status">7초 동안 모형을 자세히 살펴보세요.</p></aside></div>
+</div></section>
+
+<section id="patternResult" class="screen"><div class="wrap card result">
+  <div style="font-size:48px">🏆</div><h2>게임 종료!</h2><div id="fs" class="score">0</div><div>점</div><div id="playerResult" style="font-weight:900;margin-top:8px"></div>
+  <div class="stats"><div><strong id="cc">0/10</strong>정답</div><div><strong id="ac">0%</strong>정확도</div><div><strong id="rk">BRONZE</strong>등급</div></div>
+  <div class="actions"><button class="primary" onclick="startPattern(size)">다시 플레이</button><button class="secondary" onclick="show('difficulty')">난이도 변경</button><button class="secondary" onclick="openRanking('pattern')">랭킹보드</button><button class="secondary" onclick="show('gameSelect')">게임 변경</button><button class="secondary" onclick="show('home')">메인으로</button></div>
+</div></section>
+
+<section id="fruitGame" class="screen"><div class="wrap">
+  <div class="card top"><div class="brand">🍎🍌 과일 개수 세기 <span id="fruitBadge" class="badge">쉬움 · 총 7~10개</span></div><div class="info"><button class="secondary" style="padding:8px 12px" onclick="leaveFruitGame()">로비</button></div></div>
+  <div class="card fruit-center">
+    <div class="phase" id="fruitPhase">지나가는 사과와 바나나를 각각 세어보세요!</div>
+    <div id="fruitStageWrap" class="fruit-stage-wrap"><div class="fruit-stage-head"><span id="fruitStatus">게임 시작을 누르면 과일이 지나갑니다.</span><span id="fruitRound">준비</span></div>
+      <div id="fruitStage" class="fruit-stage"><div class="fruit-blind left"></div><div class="fruit-blind right"></div><div class="fruit-window"></div><div style="position:absolute;left:0;right:0;top:50%;height:1px;background:#dfe7f7"></div><div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:30;color:#7180a0;font-size:12px">← 과일이 지나갑니다</div></div>
+    </div>
+    <div class="actions"><button id="fruitStartBtn" class="primary" onclick="startFruitRound()">게임 시작</button><button id="fruitStopBtn" class="secondary" onclick="stopFruitRound()" disabled>중단</button></div>
+    <div id="fruitAnswerForm" class="fruit-answer"><div style="font-weight:900;margin-bottom:12px">각각 몇 개였나요?</div><div class="fruit-answer-grid"><label>🍎 사과<input id="appleInput" type="number" inputmode="numeric" min="0" max="99" placeholder="개수"></label><label>🍌 바나나<input id="bananaInput" type="number" inputmode="numeric" min="0" max="99" placeholder="개수"></label><button class="primary" type="button" onclick="submitFruitAnswer()" style="padding:12px 22px">정답 확인</button></div></div>
+    <div id="fruitResult" class="fruit-result"></div>
+  </div>
+</div></section>
+
+
+<section id="cubeGame" class="screen"><div class="wrap">
+  <div class="card top">
+    <div class="brand">🧊🔨 큐브 조각하기 <span id="cubeBadge" class="badge">쉬움</span></div>
+    <div class="info"><span id="cubeRoundLabel">1판 / 3판</span><span id="cubeTimerLabel">암기 10초</span><button class="secondary" style="padding:8px 12px" onclick="leaveCubeGame()">로비</button></div>
+  </div>
+
+  <div class="card cube-center">
+    <div class="phase" id="cubePhase">목표 큐브를 10초 동안 암기하세요!</div>
+
+    <div id="cubeMemoryPanel" class="cube-single-board">
+      <div class="cube-panel cube-focus-panel">
+        <h3>🎯 목표 큐브</h3>
+        <canvas id="cubeTargetCanvas" class="cube-canvas cube-rotatable" width="560" height="420"></canvas>
+        <div id="cubeMemoryNote" class="cube-note">10초 동안 색과 모양을 함께 자세히 기억하세요.</div>
+      </div>
+    </div>
+
+    <div id="cubePlayPanel" class="cube-single-board" style="display:none">
+      <div class="cube-panel cube-focus-panel">
+        <h3>🔨 내 큐브</h3>
+        <canvas id="cubeWorkCanvas" class="cube-canvas cube-rotatable" width="620" height="460"></canvas>
+        <div class="cube-note">드래그해서 회전 · 짧게 클릭/터치하면 블록 제거</div>
+      </div>
+    </div>
+
+    <div id="cubePlayMeta" class="cube-meta" style="display:none">
+      <span id="cubeProgress" class="cube-pill">제거 0 / 0</span>
+      <span id="cubeMistakes" class="cube-pill">실수 0</span>
+      <span id="cubeView" class="cube-pill">좌우 회전</span>
+    </div>
+
+    <div id="cubePlayControls" class="cube-controls" style="display:none">
+      <button id="cubeUndoBtn" class="secondary" onclick="undoCube()" disabled>↩ 되돌리기</button>
+    </div>
+
+    <div id="cubeStatus" class="feedback" style="height:auto;min-height:30px">목표 모양을 기억하세요.</div>
+    <div id="cubeResult" class="cube-result"></div>
+  </div>
+</div></section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+/* ================= 큐브 조각하기 ================= */
+const cubeConfig={
+  easy:{label:'쉬움',removeMin:3,removeMax:4,time:60,freeRotate:false},
+  normal:{label:'보통',removeMin:5,removeMax:6,time:60,freeRotate:false},
+  hard:{label:'어려움',removeMin:7,removeMax:8,time:60,freeRotate:true},
+  extreme:{label:'매우 어려움',removeMin:9,removeMax:11,time:60,freeRotate:true}
+};
+
+let cubeDifficulty='easy';
+let cubeTarget=new Set();
+let cubeWork=new Set();
+let cubeRemovedTarget=new Set();
+let cubeHistory=[];
+let cubeRunning=false;
+let cubeMemoryRunning=false;
+let cubeTimeLeft=60;
+let cubeMemoryLeft=10;
+let cubeInterval=null;
+let cubeMemoryInterval=null;
+let cubeMistakeCount=0;
+let cubeHitboxes=[];
+let cubePlayStartedAt=0;
+let cubeRound=1;
+let cubeRoundScores=[];
+
+/* 3D 시점과 관성 */
+let cubeYaw=-0.58;
+let cubePitch=0.43;
+let cubeRenderFrame=0;
+let cubeInertiaFrame=0;
+
+const cubeAllKeys=[];
+for(let x=0;x<3;x++){
+  for(let y=0;y<3;y++){
+    for(let z=0;z<3;z++){
+      cubeAllKeys.push(`${x},${y},${z}`);
+    }
+  }
+}
+
+function cubeRand(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function cubeShuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function cubeKey(x,y,z){return `${x},${y},${z}`;}
+function cubeParse(k){return k.split(',').map(Number);}
+function cubeClamp(v,min,max){return Math.max(min,Math.min(max,v));}
+
+function cubeSurfaceKeys(){
+  return cubeAllKeys.filter(k=>{
+    const [x,y,z]=cubeParse(k);
+    return x===0||x===2||y===0||y===2||z===0||z===2;
+  });
+}
+
+function pointInPoly(px,py,poly){
+  let inside=false;
+  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+    const xi=poly[i][0],yi=poly[i][1];
+    const xj=poly[j][0],yj=poly[j][1];
+    const hit=((yi>py)!==(yj>py)) &&
+      (px<(xj-xi)*(py-yi)/(yj-yi+1e-9)+xi);
+    if(hit)inside=!inside;
+  }
+  return inside;
+}
+
+function cubeRotatePoint(x,y,z){
+  const cy=Math.cos(cubeYaw),sy=Math.sin(cubeYaw);
+  const cp=Math.cos(cubePitch),sp=Math.sin(cubePitch);
+
+  const x1=x*cy+z*sy;
+  const z1=-x*sy+z*cy;
+  const y1=y;
+
+  return {
+    x:x1,
+    y:y1*cp-z1*sp,
+    z:y1*sp+z1*cp
+  };
+}
+
+function cubeProjectPoint(p,canvas,isWork){
+  const camera=7.4;
+  const focal=isWork?720:640;
+  const denom=Math.max(3.8,camera-p.z);
+  const scale=focal/denom;
+
+  return {
+    x:canvas.width/2+p.x*scale,
+    y:canvas.height*(isWork?0.53:0.53)-p.y*scale,
+    z:p.z
+  };
+}
+
+function cubeBaseFaceColor(neighbor,gx,gy,gz){
+  const isOuterSticker=(neighbor[0]===1&&gx===2)||(neighbor[0]===-1&&gx===0)||(neighbor[1]===1&&gy===2)||(neighbor[1]===-1&&gy===0)||(neighbor[2]===1&&gz===2)||(neighbor[2]===-1&&gz===0);
+
+  /* 실제 문구점 루빅스 큐브 느낌: 바깥 스티커 + 안쪽은 검은 플라스틱 */
+  if(!isOuterSticker){
+    return {fill:[52,58,68],stroke:'rgba(24,28,34,.92)',highlight:'rgba(255,255,255,.10)'};
+  }
+
+  if(neighbor[0]===1)  return {fill:[210,48,48],stroke:'rgba(115,20,20,.95)',highlight:'rgba(255,255,255,.25)'};   // right red
+  if(neighbor[0]===-1) return {fill:[242,126,26],stroke:'rgba(128,58,12,.95)',highlight:'rgba(255,255,255,.24)'}; // left orange
+  if(neighbor[1]===1)  return {fill:[247,247,247],stroke:'rgba(140,140,140,.95)',highlight:'rgba(255,255,255,.55)'}; // top white
+  if(neighbor[1]===-1) return {fill:[245,214,35],stroke:'rgba(134,112,16,.95)',highlight:'rgba(255,255,255,.30)'}; // bottom yellow
+  if(neighbor[2]===1)  return {fill:[43,163,74],stroke:'rgba(18,87,38,.95)',highlight:'rgba(255,255,255,.24)'};   // front green
+  return {fill:[41,101,223],stroke:'rgba(18,47,122,.95)',highlight:'rgba(255,255,255,.24)'}; // back blue
+}
+
+function cubeShadeColor(normal,baseRgb){
+  const lx=-0.32,ly=0.62,lz=0.72;
+  const len=Math.hypot(lx,ly,lz);
+  const dot=Math.max(0,(normal.x*lx+normal.y*ly+normal.z*lz)/len);
+  const shade=0.67+dot*0.33;
+
+  const r=Math.round(Math.min(255,baseRgb[0]*shade));
+  const g=Math.round(Math.min(255,baseRgb[1]*shade));
+  const b=Math.round(Math.min(255,baseRgb[2]*shade));
+  return `rgb(${r},${g},${b})`;
+}
+
+const cubeFaces=[
+  {normal:[1,0,0],neighbor:[1,0,0],verts:[[1,-1,-1],[1,-1,1],[1,1,1],[1,1,-1]]},
+  {normal:[-1,0,0],neighbor:[-1,0,0],verts:[[-1,-1,1],[-1,-1,-1],[-1,1,-1],[-1,1,1]]},
+  {normal:[0,1,0],neighbor:[0,1,0],verts:[[-1,1,-1],[1,1,-1],[1,1,1],[-1,1,1]]},
+  {normal:[0,-1,0],neighbor:[0,-1,0],verts:[[-1,-1,1],[1,-1,1],[1,-1,-1],[-1,-1,-1]]},
+  {normal:[0,0,1],neighbor:[0,0,1],verts:[[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]]},
+  {normal:[0,0,-1],neighbor:[0,0,-1],verts:[[1,-1,-1],[-1,-1,-1],[-1,1,-1],[1,1,-1]]}
+];
+
+function cubeDrawBackgroundDepth(ctx,canvas,isWork){
+  ctx.save();
+
+  const glow=ctx.createRadialGradient(
+    canvas.width/2,
+    canvas.height*0.48,
+    10,
+    canvas.width/2,
+    canvas.height*0.48,
+    isWork?215:190
+  );
+  glow.addColorStop(0,'rgba(255,255,255,.88)');
+  glow.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=glow;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  /* 바닥 그림자를 이전보다 더 진하게 */
+  ctx.beginPath();
+  ctx.ellipse(
+    canvas.width/2,
+    canvas.height*0.82,
+    isWork?148:132,
+    isWork?29:26,
+    0,0,Math.PI*2
+  );
+  ctx.fillStyle='rgba(35,47,76,.28)';
+  ctx.filter='blur(6px)';
+  ctx.fill();
+  ctx.filter='none';
+
+  ctx.restore();
+}
+
+function renderVoxelSet(canvas,set,isWork=false){
+  if(!canvas)return;
+
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  cubeDrawBackgroundDepth(ctx,canvas,isWork);
+
+  const s=0.465;
+  const facesToDraw=[];
+
+  set.forEach(k=>{
+    const [gx,gy,gz]=cubeParse(k);
+    const center={x:gx-1,y:gy-1,z:gz-1};
+
+    cubeFaces.forEach(face=>{
+      const nx=gx+face.neighbor[0];
+      const ny=gy+face.neighbor[1];
+      const nz=gz+face.neighbor[2];
+
+      if(nx>=0&&nx<3&&ny>=0&&ny<3&&nz>=0&&nz<3&&set.has(cubeKey(nx,ny,nz))){
+        return;
+      }
+
+      const rn=cubeRotatePoint(face.normal[0],face.normal[1],face.normal[2]);
+      if(rn.z<=0.015)return;
+
+      const projected=[];
+      let avgDepth=0;
+
+      face.verts.forEach(v=>{
+        const world={
+          x:center.x+v[0]*s,
+          y:center.y+v[1]*s,
+          z:center.z+v[2]*s
+        };
+        const rotated=cubeRotatePoint(world.x,world.y,world.z);
+        const p=cubeProjectPoint(rotated,canvas,isWork);
+        projected.push([p.x,p.y]);
+        avgDepth+=rotated.z;
+      });
+
+      const faceColor=cubeBaseFaceColor(face.neighbor,gx,gy,gz);
+
+      facesToDraw.push({
+        key:k,
+        poly:projected,
+        depth:avgDepth/4,
+        normal:rn,
+        faceColor
+      });
+    });
+  });
+
+  facesToDraw.sort((a,b)=>a.depth-b.depth);
+  const hitboxes=[];
+
+  facesToDraw.forEach(face=>{
+    ctx.save();
+    ctx.beginPath();
+    face.poly.forEach((p,i)=>{
+      if(i===0)ctx.moveTo(p[0],p[1]);
+      else ctx.lineTo(p[0],p[1]);
+    });
+    ctx.closePath();
+
+    ctx.fillStyle=cubeShadeColor(face.normal,face.faceColor.fill);
+    ctx.strokeStyle=face.faceColor.stroke;
+    ctx.lineWidth=isWork?2.05:1.9;
+    ctx.lineJoin='round';
+
+    /* 블록 자체의 그림자도 조금 더 진하게 */
+    ctx.shadowColor='rgba(35,47,76,.19)';
+    ctx.shadowBlur=3;
+    ctx.shadowOffsetY=2;
+    ctx.fill();
+
+    ctx.shadowColor='transparent';
+    ctx.stroke();
+
+    ctx.strokeStyle=face.faceColor.highlight;
+    ctx.lineWidth=0.9;
+    ctx.stroke();
+    ctx.restore();
+
+    if(isWork){
+      hitboxes.push({key:face.key,poly:face.poly,depth:face.depth});
+    }
+  });
+
+  if(isWork)cubeHitboxes=hitboxes;
+}
+
+function renderCubes(){
+  const memoryPanel=document.getElementById('cubeMemoryPanel');
+  const playPanel=document.getElementById('cubePlayPanel');
+
+  if(memoryPanel&&memoryPanel.style.display!=='none'){
+    renderVoxelSet(document.getElementById('cubeTargetCanvas'),cubeTarget,false);
+  }
+
+  if(playPanel&&playPanel.style.display!=='none'){
+    renderVoxelSet(document.getElementById('cubeWorkCanvas'),cubeWork,true);
+  }
+
+  updateCubeProgress();
+}
+
+function scheduleCubeRender(){
+  if(cubeRenderFrame)return;
+  cubeRenderFrame=requestAnimationFrame(()=>{
+    cubeRenderFrame=0;
+    renderCubes();
+  });
+}
+
+function updateCubeProgress(){
+  const progress=document.getElementById('cubeProgress');
+  if(!progress)return;
+
+  let correctRemoved=0;
+  cubeRemovedTarget.forEach(k=>{
+    if(!cubeWork.has(k))correctRemoved++;
+  });
+
+  progress.textContent='제거 '+correctRemoved+' / '+cubeRemovedTarget.size;
+  document.getElementById('cubeMistakes').textContent='실수 '+cubeMistakeCount;
+  document.getElementById('cubeUndoBtn').disabled=!cubeRunning||cubeHistory.length===0;
+
+  const cfg=cubeConfig[cubeDifficulty];
+  document.getElementById('cubeView').textContent=cfg.freeRotate?'360° 자유 회전':'좌우 회전';
+}
+
+function makeCubeTarget(count){
+  cubeTarget=new Set(cubeAllKeys);
+  cubeRemovedTarget=new Set();
+
+  const candidates=cubeShuffle([...cubeSurfaceKeys()]);
+  const safeCount=Math.min(count,candidates.length);
+
+  for(let i=0;i<safeCount;i++){
+    cubeTarget.delete(candidates[i]);
+    cubeRemovedTarget.add(candidates[i]);
+  }
+
+  cubeWork=new Set(cubeAllKeys);
+  cubeHistory=[];
+  cubeMistakeCount=0;
+}
+
+function resetCubeView(){
+  cubeYaw=-0.58;
+  cubePitch=0.43;
+  stopCubeInertia();
+}
+
+/* 암기 화면과 다른 방향에서 플레이가 시작되도록 랜덤 회전 */
+function randomizeCubePlayView(){
+  stopCubeInertia();
+
+  const cfg=cubeConfig[cubeDifficulty];
+  const previousYaw=cubeYaw;
+  const previousPitch=cubePitch;
+
+  let nextYaw=previousYaw;
+  let tries=0;
+
+  /* 최소 약 70도 이상 차이가 나도록 해서 암기한 화면 그대로 나오지 않게 함 */
+  do{
+    nextYaw=Math.random()*Math.PI*2-Math.PI;
+    tries++;
+  }while(
+    Math.abs(Math.atan2(Math.sin(nextYaw-previousYaw),Math.cos(nextYaw-previousYaw)))<1.22
+    && tries<30
+  );
+
+  cubeYaw=nextYaw;
+
+  if(cfg.freeRotate){
+    let nextPitch=previousPitch;
+    tries=0;
+
+    do{
+      nextPitch=-0.90+Math.random()*1.80;
+      tries++;
+    }while(Math.abs(nextPitch-previousPitch)<0.32&&tries<30);
+
+    cubePitch=nextPitch;
+  }else{
+    /* 쉬움·보통은 상하 각도를 고정하고 좌우 방향만 랜덤하게 변경 */
+    cubePitch=0.43;
+  }
+}
+
+function startCube(level){
+  cubeDifficulty=level;
+  cubeRound=1;
+  cubeRoundScores=[];
+  setupCubeRound();
+}
+
+function setupCubeRound(){
+  const c=cubeConfig[cubeDifficulty];
+  const removeCount=cubeRand(c.removeMin,c.removeMax);
+
+  clearInterval(cubeInterval);
+  clearInterval(cubeMemoryInterval);
+  stopCubeInertia();
+
+  cubeRunning=false;
+  cubeMemoryRunning=true;
+  cubeMemoryLeft=10;
+  cubeTimeLeft=60;
+  cubePlayStartedAt=0;
+
+  resetCubeView();
+  makeCubeTarget(removeCount);
+
+  document.getElementById('cubeRoundLabel').textContent=cubeRound+'판 / 3판';
+  document.getElementById('cubeBadge').textContent=c.label+' · '+removeCount+'개 조각';
+  document.getElementById('cubeTimerLabel').textContent='암기 10초';
+  document.getElementById('cubePhase').textContent='목표 큐브를 10초 동안 암기하세요!';
+  document.getElementById('cubeMemoryNote').textContent='10초 동안 색과 모양을 함께 자세히 기억하세요.';
+  document.getElementById('cubeStatus').textContent=c.freeRotate
+    ? '목표 큐브를 자유롭게 돌려보면서 모양을 기억하세요.'
+    : '목표 큐브를 좌우로 돌려보면서 모양을 기억하세요.';
+
+  document.getElementById('cubeMemoryPanel').style.display='block';
+  document.getElementById('cubePlayPanel').style.display='none';
+  document.getElementById('cubePlayMeta').style.display='none';
+  document.getElementById('cubePlayControls').style.display='none';
+
+  const result=document.getElementById('cubeResult');
+  result.classList.remove('show');
+  result.innerHTML='';
+
+  show('cubeGame');
+
+  requestAnimationFrame(()=>{
+    renderCubes();
+    beginCubeMemory();
+  });
+}
+
+function startNextCubeRound(){
+  if(cubeRound>=3)return;
+  cubeRound++;
+  setupCubeRound();
+}
+
+function beginCubeMemory(){
+  clearInterval(cubeMemoryInterval);
+  cubeMemoryLeft=10;
+
+  document.getElementById('cubeTimerLabel').textContent='암기 '+cubeMemoryLeft+'초';
+
+  cubeMemoryInterval=setInterval(()=>{
+    cubeMemoryLeft--;
+    document.getElementById('cubeTimerLabel').textContent='암기 '+cubeMemoryLeft+'초';
+
+    if(cubeMemoryLeft<=0){
+      clearInterval(cubeMemoryInterval);
+      startCubePlay();
+    }
+  },1000);
+}
+
+function startCubePlay(){
+  cubeMemoryRunning=false;
+  cubeRunning=true;
+  cubeTimeLeft=60;
+
+  /* 암기할 때 마지막으로 보고 있던 방향과 다르게 랜덤 회전 */
+  randomizeCubePlayView();
+
+  cubePlayStartedAt=Date.now();
+
+  /* 목표 큐브는 완전히 숨기고 내 큐브만 표시 */
+  document.getElementById('cubeMemoryPanel').style.display='none';
+  document.getElementById('cubePlayPanel').style.display='block';
+  document.getElementById('cubePlayMeta').style.display='flex';
+  document.getElementById('cubePlayControls').style.display='flex';
+
+  document.getElementById('cubePhase').textContent='기억한 목표 모양대로 큐브를 조각하세요!';
+  document.getElementById('cubeTimerLabel').textContent='60초';
+
+  const cfg=cubeConfig[cubeDifficulty];
+  document.getElementById('cubeStatus').textContent=cfg.freeRotate
+    ? '자유롭게 회전하면서 필요 없는 블록을 짧게 클릭/터치해서 제거하세요.'
+    : '좌우로 회전하면서 필요 없는 블록을 짧게 클릭/터치해서 제거하세요.';
+
+  renderCubes();
+
+  clearInterval(cubeInterval);
+  cubeInterval=setInterval(()=>{
+    const elapsed=Math.floor((Date.now()-cubePlayStartedAt)/1000);
+    cubeTimeLeft=Math.max(0,60-elapsed);
+    document.getElementById('cubeTimerLabel').textContent=cubeTimeLeft+'초';
+
+    if(cubeTimeLeft<=0){
+      clearInterval(cubeInterval);
+      finishCube(false);
+    }
+  },200);
+}
+
+function undoCube(){
+  if(!cubeRunning||!cubeHistory.length)return;
+
+  const item=cubeHistory.pop();
+  cubeWork.add(item.key);
+
+  document.getElementById('cubeStatus').textContent='마지막으로 제거한 블록을 복구했습니다.';
+  renderCubes();
+}
+
+function cubeSetsEqual(a,b){
+  if(a.size!==b.size)return false;
+  for(const k of a){
+    if(!b.has(k))return false;
+  }
+  return true;
+}
+
+function handleCubeTap(canvas,clientX,clientY){
+  if(!cubeRunning)return;
+
+  const rect=canvas.getBoundingClientRect();
+  const px=(clientX-rect.left)*canvas.width/rect.width;
+  const py=(clientY-rect.top)*canvas.height/rect.height;
+
+  let hit=null;
+  for(let i=cubeHitboxes.length-1;i>=0;i--){
+    const b=cubeHitboxes[i];
+    if(pointInPoly(px,py,b.poly)){
+      hit=b.key;
+      break;
+    }
+  }
+
+  if(!hit||!cubeWork.has(hit))return;
+
+  const wasWrong=cubeTarget.has(hit);
+  cubeWork.delete(hit);
+  cubeHistory.push({key:hit,wrong:wasWrong});
+
+  if(wasWrong){
+    cubeMistakeCount++;
+    document.getElementById('cubeStatus').textContent='⚠️ 목표에 필요한 블록을 제거했습니다. 실수 1회가 기록되었습니다.';
+  }else{
+    document.getElementById('cubeStatus').textContent='좋아요! 필요 없는 블록을 제거했습니다.';
+  }
+
+  renderCubes();
+
+  if(cubeSetsEqual(cubeWork,cubeTarget)){
+    finishCube(true);
+  }
+}
+
+function stopCubeInertia(){
+  if(cubeInertiaFrame){
+    cancelAnimationFrame(cubeInertiaFrame);
+    cubeInertiaFrame=0;
+  }
+}
+
+function startCubeInertia(vYaw,vPitch){
+  stopCubeInertia();
+
+  const freeRotate=cubeConfig[cubeDifficulty].freeRotate;
+  let vy=vYaw;
+  let vp=freeRotate?vPitch:0;
+
+  function step(){
+    vy*=0.90;
+    vp*=0.90;
+
+    if(Math.abs(vy)<0.00045&&Math.abs(vp)<0.00045){
+      cubeInertiaFrame=0;
+      return;
+    }
+
+    cubeYaw+=vy;
+
+    if(freeRotate){
+      cubePitch=cubeClamp(cubePitch+vp,-1.12,1.12);
+    }else{
+      cubePitch=0.43;
+    }
+
+    scheduleCubeRender();
+    cubeInertiaFrame=requestAnimationFrame(step);
+  }
+
+  if(Math.abs(vy)>0.001||Math.abs(vp)>0.001){
+    cubeInertiaFrame=requestAnimationFrame(step);
+  }
+}
+
+function setupCubeInteraction(canvas,isWork){
+  if(!canvas||canvas.dataset.rotateReady==='1')return;
+  canvas.dataset.rotateReady='1';
+  canvas.tabIndex=0;
+
+  let active=false;
+  let pointerId=null;
+  let startX=0,startY=0,lastX=0,lastY=0;
+  let moved=false;
+  let velocityYaw=0;
+  let velocityPitch=0;
+
+  canvas.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+
+    /* 목표 큐브는 암기 중에만, 내 큐브는 플레이 중에만 조작 */
+    if(isWork&&!cubeRunning)return;
+    if(!isWork&&!cubeMemoryRunning)return;
+
+    stopCubeInertia();
+
+    active=true;
+    pointerId=e.pointerId;
+    startX=lastX=e.clientX;
+    startY=lastY=e.clientY;
+    moved=false;
+    velocityYaw=0;
+    velocityPitch=0;
+
+    canvas.classList.add('dragging');
+
+    try{canvas.setPointerCapture(pointerId)}catch(err){}
+  });
+
+  canvas.addEventListener('pointermove',e=>{
+    if(!active||e.pointerId!==pointerId)return;
+
+    const dx=e.clientX-lastX;
+    const dy=e.clientY-lastY;
+    const totalX=e.clientX-startX;
+    const totalY=e.clientY-startY;
+
+    if(Math.hypot(totalX,totalY)>5)moved=true;
+
+    if(moved){
+      e.preventDefault();
+
+      const freeRotate=cubeConfig[cubeDifficulty].freeRotate;
+      const yawDelta=dx*0.010;
+      const pitchDelta=freeRotate?(-dy*0.0085):0;
+
+      cubeYaw+=yawDelta;
+
+      if(freeRotate){
+        cubePitch=cubeClamp(cubePitch+pitchDelta,-1.12,1.12);
+      }else{
+        cubePitch=0.43;
+      }
+
+      velocityYaw=yawDelta;
+      velocityPitch=pitchDelta;
+      scheduleCubeRender();
+    }
+
+    lastX=e.clientX;
+    lastY=e.clientY;
+  },{passive:false});
+
+  function finishPointer(e,cancelled){
+    if(!active||e.pointerId!==pointerId)return;
+
+    active=false;
+    canvas.classList.remove('dragging');
+
+    try{canvas.releasePointerCapture(pointerId)}catch(err){}
+
+    if(!cancelled){
+      if(isWork&&!moved){
+        handleCubeTap(canvas,e.clientX,e.clientY);
+      }else if(moved){
+        startCubeInertia(velocityYaw*0.72,velocityPitch*0.72);
+      }
+    }
+
+    pointerId=null;
+  }
+
+  canvas.addEventListener('pointerup',e=>finishPointer(e,false));
+  canvas.addEventListener('pointercancel',e=>finishPointer(e,true));
+
+  canvas.addEventListener('keydown',e=>{
+    if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;
+    if(isWork&&!cubeRunning)return;
+    if(!isWork&&!cubeMemoryRunning)return;
+
+    e.preventDefault();
+    stopCubeInertia();
+
+    const freeRotate=cubeConfig[cubeDifficulty].freeRotate;
+
+    if(e.key==='ArrowLeft')cubeYaw-=0.12;
+    if(e.key==='ArrowRight')cubeYaw+=0.12;
+
+    if(freeRotate){
+      if(e.key==='ArrowUp')cubePitch=cubeClamp(cubePitch+0.10,-1.12,1.12);
+      if(e.key==='ArrowDown')cubePitch=cubeClamp(cubePitch-0.10,-1.12,1.12);
+    }
+
+    renderCubes();
+  });
+}
+
+function cubeFinalScore(){
+  const elapsedSeconds=Math.min(60,Math.max(0,Math.ceil((Date.now()-cubePlayStartedAt)/1000)));
+  const timePenalty=Math.max(0,elapsedSeconds-10);
+  const mistakePenalty=cubeMistakeCount*5;
+  const score=Math.max(0,100-timePenalty-mistakePenalty);
+
+  return {
+    score,
+    elapsedSeconds,
+    timePenalty,
+    mistakePenalty
+  };
+}
+
+async function finishCube(success){
+  if(!cubeRunning)return;
+
+  cubeRunning=false;
+  clearInterval(cubeInterval);
+  stopCubeInertia();
+
+  document.getElementById('cubeUndoBtn').disabled=true;
+
+  const result=document.getElementById('cubeResult');
+  result.classList.add('show');
+
+  let roundScore=0;
+  let roundSummary='';
+
+  if(success){
+    const s=cubeFinalScore();
+    roundScore=s.score;
+
+    document.getElementById('cubePhase').textContent='🎉 '+cubeRound+'판 완성!';
+    document.getElementById('cubeStatus').textContent='기억한 목표 모양과 정확히 일치합니다.';
+    document.getElementById('cubeTimerLabel').textContent=Math.max(0,60-s.elapsedSeconds)+'초';
+
+    roundSummary=
+      '<div style="font-size:22px;font-weight:900">'+cubeRound+'판 완성!</div>'+
+      '<div style="font-size:38px;font-weight:950;color:#5b49d6;margin-top:8px">'+roundScore+'점</div>'+
+      '<div style="margin-top:8px;color:#7180a0">완성 시간 '+s.elapsedSeconds+'초 · 실수 '+cubeMistakeCount+'회</div>'+
+      '<div style="margin-top:6px;color:#7180a0;font-size:13px">10초 초과 시간 -'+s.timePenalty+'점 · 실수 감점 -'+s.mistakePenalty+'점</div>';
+  }else{
+    roundScore=0;
+
+    document.getElementById('cubePhase').textContent='시간 종료! 정답을 확인하세요.';
+    document.getElementById('cubeStatus').textContent='위의 목표 큐브가 정답입니다. 아래의 내 큐브와 비교해보세요.';
+    document.getElementById('cubeTimerLabel').textContent='0초';
+
+    document.getElementById('cubeMemoryPanel').style.display='block';
+    document.getElementById('cubePlayPanel').style.display='block';
+    document.getElementById('cubeMemoryNote').textContent='✅ 정답 큐브입니다. 아래의 내 큐브와 비교해보세요.';
+
+    roundSummary=
+      '<div style="font-size:22px;font-weight:900">⏰ '+cubeRound+'판 시간 종료</div>'+
+      '<div style="font-size:38px;font-weight:950;color:#5b49d6;margin-top:8px">0점</div>'+
+      '<div style="margin-top:8px;color:#7180a0">정답 큐브와 내 큐브를 비교한 뒤 다음 판으로 넘어가세요.</div>';
+
+    renderCubes();
+  }
+
+  cubeRoundScores.push(roundScore);
+  const runningTotal=cubeRoundScores.reduce((a,b)=>a+b,0);
+
+  const scoreCards=
+    '<div class="cube-series-score">'+
+      cubeRoundScores.map((v,i)=>'<div><strong>'+v+'</strong>'+(i+1)+'판</div>').join('')+
+      '<div><strong>'+runningTotal+'</strong>현재 합계</div>'+
+    '</div>';
+
+  if(cubeRound<3){
+    result.innerHTML=
+      roundSummary+
+      scoreCards+
+      '<div class="actions" style="margin-top:14px"><button class="primary" onclick="startNextCubeRound()">다음 판 ('+(cubeRound+1)+'/3)</button></div>';
+    return;
+  }
+
+  const totalScore=runningTotal;
+  document.getElementById('cubePhase').textContent='🏆 3판 플레이 완료!';
+  document.getElementById('cubeStatus').textContent='세 판의 점수를 합산했습니다.';
+
+  result.innerHTML=
+    roundSummary+
+    '<div style="margin-top:18px;font-size:20px;font-weight:900">3판 최종 합계</div>'+
+    '<div style="font-size:46px;font-weight:950;color:#5b49d6;margin-top:4px">'+totalScore+' / 300점</div>'+
+    scoreCards+
+    '<div id="cubeSaveStatus" style="margin-top:10px;color:#7180a0">랭킹보드에 기록을 저장하는 중입니다...</div>'+
+    '<div class="actions" style="margin-top:16px">'+
+      '<button class="primary" onclick="startCube(cubeDifficulty)">3판 다시 플레이</button>'+
+      '<button class="secondary" onclick="openRanking(\'cube\',cubeConfig[cubeDifficulty].label)">🏆 블록깎기 랭킹</button>'+
+      '<button class="secondary" onclick="show(\'difficulty\')">난이도 변경</button>'+
+    '</div>';
+
+  try{
+    await saveCubeRankingSeries();
+    document.getElementById('cubeSaveStatus').textContent='✅ 랭킹보드에 저장되었습니다.';
+  }catch(error){
+    console.error(error);
+    document.getElementById('cubeSaveStatus').textContent='⚠️ 랭킹 저장에 실패했습니다. Supabase의 블록깎기 랭킹 설정을 확인해주세요.';
+  }
+}
+
+function leaveCubeGame(){
+  clearInterval(cubeInterval);
+  clearInterval(cubeMemoryInterval);
+  stopCubeInertia();
+
+  cubeRunning=false;
+  cubeMemoryRunning=false;
+  cubeRound=1;
+  cubeRoundScores=[];
+  show('difficulty');
+}
+
+requestAnimationFrame(()=>{
+  setupCubeInteraction(document.getElementById('cubeTargetCanvas'),false);
+  setupCubeInteraction(document.getElementById('cubeWorkCanvas'),true);
+});
+
+</script>
 <script>
 const SUPABASE_URL="https://mwgkhqgevlyxbflpwjix.supabase.co";
 const SUPABASE_KEY="sb_publishable_b0FVicfcYcXIISINWOUVKg_vHNzEf_s";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const C={red:["빨간색","red"],yellow:["노란색","yellow"],blue:["파란색","blue"],purple:["보라색","purple"],green:["초록색","green"],orange:["주황색","orange"]};
-const sets={3:["red","yellow","blue"],5:["red","yellow","blue","purple"],7:["red","yellow","blue","purple"],9:["red","yellow","blue","purple","orange"]};
-let size=3,q=0,score=0,right=0,answer="",timer=null,answerTimer=null,locked=false,answerStart=0;
-let previousPalette="";
 let nickname="";
-let gameStartedAt=0;
-let returningToLobby=false;
+let selectedGame="pattern";
 let rankingDifficulty="쉬움";
+let rankingGame="pattern";
 
-function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
-function shuffle(a){for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function makePalette(n){
-  const base=[...sets[n]];
-  let palette,sig;
-  do{
-    palette=shuffle([...base]);
-    sig=palette.join("-");
-  }while(sig===previousPalette && base.length>1);
-  previousPalette=sig;
-  return palette;
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function escapeHtml(x){return String(x).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function saveNicknameAndGo(){
+  const v=document.getElementById('nicknameInput').value.trim();
+  if(!v){alert('닉네임을 입력해주세요.');return}
+  nickname=v;
+  show('gameSelect');
 }
 
+function selectGame(game){
+  selectedGame=game;
+  const check=document.getElementById('instructionsCheck');
+  check.checked=false;
+  updateInstructionReady();
+  const title=document.getElementById('instructionTitle');
+  const text=document.getElementById('instructionText');
+  if(game==='pattern'){
+    title.textContent='색깔 패턴 맞추기 · 플레이 방법';
+    text.innerHTML='완성된 색깔 패턴을 7초 동안 기억하세요.<br>색상 선택지는 처음부터 보이며, 7초 후 한 칸이 비어지면 정답을 선택하세요!<br>정답은 10초 안에 선택해야 합니다.<br>플레이 한 기록은 랭킹보드에서 확인이 가능합니다! 다른 사람들과 경쟁하세요!';
+  }else if(game==='fruit'){
+    title.textContent='과일 개수 세기 · 플레이 방법';
+    text.innerHTML='화면을 지나가는 🍎 사과와 🍌 바나나의 개수를 각각 세어 기억하세요.<br>과일이 모두 지나가면 사과와 바나나가 각각 몇 개였는지 입력합니다.<br>보통 난이도부터 양쪽에 블라인드가 생기며, 난이도가 올라갈수록 볼 수 있는 공간이 좁아지고 과일의 속도와 등장 간격도 달라집니다.<br>사과와 바나나를 따로 세는 것이 중요합니다!';
+  }else{
+    title.textContent='큐브 조각하기 · 플레이 방법';
+    text.innerHTML='<b>같은 난이도로 총 3판</b>을 플레이하고 세 판의 점수를 합산합니다.<br>매 판 목표 큐브가 먼저 <b>10초 동안 표시</b>되며, 이후 목표 큐브는 사라지고 내 큐브만 표시됩니다.<br>기억한 모양대로 필요 없는 블록을 클릭/터치해서 제거하세요.<br><b>쉬움·보통</b>은 좌우로만 회전하고, <b>어려움·매우 어려움</b>은 위·아래까지 자유롭게 회전합니다.<br>각 판 제한시간은 <b>60초</b>입니다. 10초 안에 완성하면 100점이며, 이후 1초당 1점 감점되고 실수 1개당 5점이 추가 감점됩니다.<br><b>3판 합계(최대 300점)</b>가 블록깎기 랭킹보드에 저장됩니다.';
+  }
+  show('instructions');
+}
+
+function updateInstructionReady(){
+  const check=document.getElementById('instructionsCheck');
+  document.getElementById('instructionsContinue').disabled=!check.checked;
+}
+
+function goToDifficulty(){renderDifficultyScreen();show('difficulty')}
+function renderDifficultyScreen(){
+  const kicker=document.getElementById('difficultyKicker');
+  const sub=document.getElementById('difficultySub');
+  const box=document.getElementById('difficultyOptions');
+  if(selectedGame==='pattern'){
+    kicker.textContent='PATTERN MATCH';
+    sub.textContent='처음에는 쉬움(3×3)으로 플레이해보세요.';
+    box.innerHTML=`
+      <button onclick="startPattern(3)"><div class="num">3×3</div><strong>쉬움</strong><small>7초 기억 · 색상 3가지</small></button>
+      <button onclick="startPattern(5)"><div class="num">5×5</div><strong>보통</strong><small>7초 기억 · 색상 4가지</small></button>
+      <button onclick="startPattern(7)"><div class="num">7×7</div><strong>어려움</strong><small>7초 기억 · 색상 4가지</small></button>
+      <button onclick="startPattern(9)"><div class="num">9×9</div><strong>매우 어려움</strong><small>7초 기억 · 색상 5가지</small></button>`;
+  }else if(selectedGame==='fruit'){
+    kicker.textContent='FRUIT COUNT';
+    sub.textContent='사과와 바나나를 각각 세어보세요. 난이도가 올라갈수록 시야와 속도가 어려워집니다.';
+    box.innerHTML=`
+      <button onclick="startFruit('easy')"><div class="num">7~10</div><strong>쉬움</strong><small>바나나 1~4개 · 블라인드 없음</small></button>
+      <button onclick="startFruit('middle')"><div class="num">9~14</div><strong>보통</strong><small>바나나 1~4개 · 양쪽 15% 블라인드</small></button>
+      <button onclick="startFruit('normal')"><div class="num">10~20</div><strong>어려움</strong><small>바나나 3~10개 · 양쪽 25% 블라인드</small></button>
+      <button onclick="startFruit('extreme')"><div class="num">25~40</div><strong>매우 어려움</strong><small>바나나 3~10개 · 양쪽 35% 블라인드</small></button>`;
+  }else{
+    kicker.textContent='CUBE CARVING';
+    sub.textContent='같은 난이도로 3판을 플레이합니다. 각 판은 목표 암기 10초 + 조각 제한시간 60초이며, 3판 합계가 랭킹에 기록됩니다.';
+    box.innerHTML=`
+      <button onclick="startCube('easy')"><div class="num">3~4</div><strong>쉬움</strong><small>제거 블록 · 좌우 회전 · 60초</small></button>
+      <button onclick="startCube('normal')"><div class="num">5~6</div><strong>보통</strong><small>제거 블록 · 좌우 회전 · 60초</small></button>
+      <button onclick="startCube('hard')"><div class="num">7~8</div><strong>어려움</strong><small>제거 블록 · 자유 회전 · 60초</small></button>
+      <button onclick="startCube('extreme')"><div class="num">9~11</div><strong>매우 어려움</strong><small>제거 블록 · 자유 회전 · 60초</small></button>`;
+  }
+}
+
+/* ================= 색깔 패턴 게임 ================= */
+const C={red:['빨간색','red'],yellow:['노란색','yellow'],blue:['파란색','blue'],purple:['보라색','purple'],green:['초록색','green'],orange:['주황색','orange']};
+const sets={3:['red','yellow','blue'],5:['red','yellow','blue','purple'],7:['red','yellow','blue','purple'],9:['red','yellow','blue','purple','green']};
+let size=3,q=0,score=0,right=0,answer='',timer=null,answerTimer=null,locked=false,answerStart=0,previousPalette='';
+
+function makePalette(n){const base=[...sets[n]];let palette,sig;do{palette=shuffle([...base]);sig=palette.join('-')}while(sig===previousPalette&&base.length>1);previousPalette=sig;return palette}
 function pattern(n){
-  const palette=makePalette(n);
-  let a=[];
-  const maxRun=(n===9)?3:Infinity;
-  function valid(r,c,color){
-    if(maxRun===Infinity)return true;
-    const dirs=[[0,-1],[-1,0],[-1,-1],[-1,1]];
-    for(const [dr,dc] of dirs){
-      let count=1,rr=r-dr,cc=c-dc;
-      while(rr>=0&&rr<n&&cc>=0&&cc<n&&a[rr*n+cc]===color){count++;rr-=dr;cc-=dc;}
-      if(count>=4)return false;
-    }
-    return true;
-  }
-  for(let r=0;r<n;r++)for(let c=0;c<n;c++){
-    let choices=shuffle([...palette]);
-    if(n===3){
-      choices=choices.filter(x=>(c===0||a[r*n+c-1]!==x)&&(r===0||a[(r-1)*n+c]!==x));
-    }
-    if(n===9){
-      const validChoices=choices.filter(x=>valid(r,c,x));
-      if(validChoices.length)choices=validChoices;
-    }
-    a.push(choices[Math.floor(Math.random()*choices.length)]);
-  }
-  return a;
+  const palette=makePalette(n);let a=[];
+  function valid(r,c,color){if(n!==9)return true;const dirs=[[0,-1],[-1,0],[-1,-1],[-1,1]];for(const[dr,dc]of dirs){let count=1,rr=r-dr,cc=c-dc;while(rr>=0&&rr<n&&cc>=0&&cc<n&&a[rr*n+cc]===color){count++;rr-=dr;cc-=dc}if(count>=4)return false}return true}
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++){let choices=shuffle([...palette]);if(n===3)choices=choices.filter(x=>(c===0||a[r*n+c-1]!==x)&&(r===0||a[(r-1)*n+c]!==x));if(n===9){const v=choices.filter(x=>valid(r,c,x));if(v.length)choices=v}a.push(choices[Math.floor(Math.random()*choices.length)])}return a
 }
 
-function normalizeNickname(v){return v.trim().replace(/\s+/g," ").toLocaleLowerCase();}
+function startPattern(n){size=n;q=0;score=0;right=0;previousPalette='';document.getElementById('badge').textContent=({3:'쉬움 · 3×3',5:'보통 · 5×5',7:'어려움 · 7×7',9:'매우 어려움 · 9×9'})[n];show('patternGame');nextPattern()}
+function leavePatternGame(){clearInterval(timer);clearInterval(answerTimer);show('difficulty')}
+function nextPattern(){if(q>=10)return finishPattern();q++;locked=false;document.getElementById('qn').textContent=q;document.getElementById('sc').textContent=score;document.getElementById('pg').style.width=q*10+'%';document.getElementById('answers').innerHTML='';document.getElementById('feedback').textContent='';const a=pattern(size),missing=Math.floor(Math.random()*a.length);answer=a[missing];drawPattern(a,-1);memoryPattern(a,missing)}
+function drawPattern(a,missing){const g=document.getElementById('grid');g.style.gridTemplateColumns=`repeat(${size},1fr)`;g.innerHTML='';a.forEach((c,i)=>{const x=document.createElement('div');x.className='cell '+(i===missing?'blank':c);g.appendChild(x)})}
+function memoryPattern(a,missing){clearInterval(timer);clearInterval(answerTimer);let left=7;preparePatternAnswers();document.getElementById('timer').textContent='7초';document.getElementById('phase').textContent='완성된 모형을 기억하세요!';document.getElementById('status').textContent='7초 동안 모형을 자세히 살펴보세요. 아래 색상 선택지는 잠시 후 선택할 수 있습니다.';timer=setInterval(()=>{left--;document.getElementById('timer').textContent=left+'초';if(left<=0){clearInterval(timer);drawPattern(a,missing);document.getElementById('phase').textContent='빈칸의 색깔을 선택하세요!';document.getElementById('status').textContent='10초 안에 빈칸의 색깔을 골라보세요.';activatePatternAnswers()}},1000)}
+function preparePatternAnswers(){const el=document.getElementById('answers');const choices=shuffle([...sets[size]]);el.innerHTML='';el.style.gridTemplateColumns=`repeat(${choices.length},minmax(0,1fr))`;choices.forEach(c=>{const b=document.createElement('button');b.className='answer';b.disabled=true;b.innerHTML=`<div class="swatch ${C[c][1]}"></div>${C[c][0]}`;b.onclick=()=>checkPattern(c,b);el.appendChild(b)})}
+function activatePatternAnswers(){answerStart=Date.now();document.querySelectorAll('.answer').forEach(b=>b.disabled=false);document.getElementById('timer').textContent='10초';answerTimer=setInterval(()=>{const elapsed=(Date.now()-answerStart)/1000;document.getElementById('timer').textContent=Math.max(0,10-Math.ceil(elapsed))+'초';if(elapsed>=10){clearInterval(answerTimer);if(!locked)timeoutPattern()}},100)}
+function checkPattern(c,b){if(locked)return;clearInterval(answerTimer);locked=true;const bs=[...document.querySelectorAll('.answer')];if(c===answer){right++;const elapsed=(Date.now()-answerStart)/1000;const earned=Math.max(0,100-Math.floor(elapsed)*20);score+=earned;b.classList.add('correct');document.getElementById('feedback').textContent='정답입니다! ✓';document.getElementById('feedback').className='feedback ok'}else{b.classList.add('wrong');const cb=bs.find(x=>x.textContent.includes(C[answer][0]));if(cb)cb.classList.add('correct');document.getElementById('feedback').textContent='아쉬워요! 정답은 '+C[answer][0]+'입니다.';document.getElementById('feedback').className='feedback no'}document.getElementById('sc').textContent=score;setTimeout(nextPattern,1100)}
+function timeoutPattern(){if(locked)return;locked=true;const bs=[...document.querySelectorAll('.answer')];const cb=bs.find(x=>x.textContent.includes(C[answer][0]));if(cb)cb.classList.add('correct');document.getElementById('feedback').textContent='시간 초과! 정답은 '+C[answer][0]+'입니다.';document.getElementById('feedback').className='feedback no';document.getElementById('timer').textContent='0초';setTimeout(nextPattern,1100)}
 
-async function getRankings(difficulty=rankingDifficulty){
-  let query=supabaseClient
-    .from("rankings")
-    .select("nickname,difficulty,grid_size,score,accuracy,created_at")
-    .eq("difficulty",difficulty)
-    .order("score",{ascending:false})
-    .order("accuracy",{ascending:false})
-    .order("created_at",{ascending:true})
+async function saveRanking(){const difficulty=({3:'쉬움',5:'보통',7:'어려움',9:'매우 어려움'})[size];const {data,error}=await supabaseClient.rpc('save_best_ranking',{p_nickname:nickname,p_difficulty:difficulty,p_grid_size:size,p_score:score,p_accuracy:right*10});if(error)throw error;return data}
+async function finishPattern(){show('patternResult');document.getElementById('fs').textContent=score;document.getElementById('playerResult').textContent=nickname+' · '+({3:'쉬움',5:'보통',7:'어려움',9:'매우 어려움'})[size];document.getElementById('cc').textContent=right+'/10';document.getElementById('ac').textContent=right*10+'%';document.getElementById('rk').textContent=right>=9?'MASTER':right>=7?'GOLD':right>=5?'SILVER':'BRONZE';try{await saveRanking()}catch(error){console.error(error);alert('게임 기록을 랭킹 서버에 저장하지 못했습니다.')}}
+
+async function getPatternRankings(difficulty=rankingDifficulty){
+  const gridSizeByDifficulty={'쉬움':3,'보통':5,'어려움':7,'매우 어려움':9};
+  const gridSize=gridSizeByDifficulty[difficulty];
+
+  const {data,error}=await supabaseClient
+    .from('rankings')
+    .select('nickname,difficulty,grid_size,score,accuracy,created_at')
+    .eq('grid_size',gridSize)
+    .order('score',{ascending:false})
+    .order('accuracy',{ascending:false})
+    .order('created_at',{ascending:true})
     .limit(100);
 
-  const {data,error}=await query;
   if(error)throw error;
   return data||[];
 }
 
-function saveNicknameAndGo(){
-  const v=document.getElementById("nicknameInput").value.trim();
-  if(!v){alert("닉네임을 입력해주세요.");return;}
-  nickname=v;
-  const check=document.getElementById("instructionsCheck");
-  if(check)check.checked=false;
-  updateInstructionReady();
-  show("instructions");
+async function getCubeRankings(difficulty=rankingDifficulty){
+  const {data,error}=await supabaseClient
+    .from('cube_rankings')
+    .select('nickname,difficulty,round1_score,round2_score,round3_score,total_score,created_at')
+    .eq('difficulty',difficulty)
+    .order('total_score',{ascending:false})
+    .order('created_at',{ascending:true})
+    .limit(100);
+
+  if(error)throw error;
+  return data||[];
 }
 
-function updateInstructionReady(){
-  const check=document.getElementById("instructionsCheck");
-  const button=document.getElementById("instructionsContinue");
-  if(button)button.disabled=!(check&&check.checked);
-}
+async function saveCubeRankingSeries(){
+  const scores=[0,1,2].map(i=>Number(cubeRoundScores[i]||0));
+  const total=scores.reduce((a,b)=>a+b,0);
+  const difficulty=cubeConfig[cubeDifficulty].label;
 
-function start(n){if(!nickname){show("nickname");return}size=n;q=0;score=0;right=0;previousPalette="";gameStartedAt=Date.now();returningToLobby=false;document.getElementById("badge").textContent=({3:"쉬움 · 3×3",5:"보통 · 5×5",7:"어려움 · 7×7",9:"매우 어려움 · 9×9"})[n];show("game");next()}
-function leaveGame(){clearInterval(timer);clearInterval(answerTimer);returningToLobby=true;show("difficulty")}
-
-async function saveRanking(){
-  const difficulty={3:"쉬움",5:"보통",7:"어려움",9:"매우 어려움"}[size];
-  const {data,error}=await supabaseClient.rpc("save_best_ranking",{
+  const {data,error}=await supabaseClient.rpc('save_best_cube_ranking',{
     p_nickname:nickname,
     p_difficulty:difficulty,
-    p_grid_size:size,
-    p_score:score,
-    p_accuracy:right*10
+    p_round1_score:scores[0],
+    p_round2_score:scores[1],
+    p_round3_score:scores[2],
+    p_total_score:total
   });
+
   if(error)throw error;
   return data;
 }
 
+function openRanking(game='pattern',difficulty='쉬움'){
+  rankingGame=game;
+  rankingDifficulty=difficulty||'쉬움';
+  updateRankingGameUI();
+  renderRankingFilters();
+  show('ranking');
+  renderRankings();
+}
+
+function setRankingGame(game){
+  rankingGame=game;
+  rankingDifficulty='쉬움';
+  updateRankingGameUI();
+  renderRankingFilters();
+  renderRankings();
+}
+
+function updateRankingGameUI(){
+  document.getElementById('rankingPatternTab').classList.toggle('selected',rankingGame==='pattern');
+  document.getElementById('rankingCubeTab').classList.toggle('selected',rankingGame==='cube');
+
+  document.getElementById('rankingTitle').textContent=
+    rankingGame==='pattern'?'🏆 색맞추기 랭킹보드':'🏆 블록깎기 랭킹보드';
+
+  document.getElementById('rankingSub').textContent=
+    rankingGame==='pattern'
+      ?'난이도를 선택하면 색맞추기 점수 순위가 표시됩니다.'
+      :'같은 난이도로 3판을 플레이한 합계 점수(최대 300점) 순위입니다.';
+}
+
+function renderRankingFilters(){
+  const labels=rankingGame==='pattern'
+    ?[
+      ['쉬움','쉬움 · 3×3'],
+      ['보통','보통 · 5×5'],
+      ['어려움','어려움 · 7×7'],
+      ['매우 어려움','매우 어려움 · 9×9']
+    ]
+    :[
+      ['쉬움','쉬움'],
+      ['보통','보통'],
+      ['어려움','어려움'],
+      ['매우 어려움','매우 어려움']
+    ];
+
+  document.getElementById('rankingFilters').innerHTML=labels.map(([value,label])=>
+    '<button class="ranking-filter '+(value===rankingDifficulty?'selected':'')+'" data-diff="'+value+'" onclick="setRankingDifficulty(\''+value+'\')">'+label+'</button>'
+  ).join('');
+}
+
 function setRankingDifficulty(difficulty){
   rankingDifficulty=difficulty;
-  document.querySelectorAll(".ranking-filter").forEach(btn=>{
-    btn.classList.toggle("selected",btn.dataset.diff===difficulty);
-  });
+  renderRankingFilters();
   renderRankings();
 }
 
 async function renderRankings(){
-  const el=document.getElementById("rankingTable");
-  el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(rankingDifficulty)+' 랭킹을 불러오는 중입니다...</div>';
+  const el=document.getElementById('rankingTable');
+  const gameName=rankingGame==='pattern'?'색맞추기':'블록깎기';
+
+  el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(gameName+' · '+rankingDifficulty)+' 랭킹을 불러오는 중입니다...</div>';
 
   try{
-    const rows=await getRankings(rankingDifficulty);
-    if(!rows.length){
-      el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(rankingDifficulty)+' 단계에는 아직 기록이 없습니다.</div>';
-      return;
-    }
+    if(rankingGame==='pattern'){
+      const rows=await getPatternRankings(rankingDifficulty);
 
-    el.innerHTML='<table style="width:100%;border-collapse:collapse;min-width:600px"><thead><tr>'+['순위','닉네임','점수','정답률','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+'</tr></thead><tbody>'+rows.map((r,i)=>'<tr><td style="padding:13px;text-align:center;font-weight:900">'+(i+1)+'</td><td style="padding:13px;text-align:center;font-weight:900">'+escapeHtml(String(r.nickname||''))+'</td><td style="padding:13px;text-align:center;font-weight:900">'+r.score+'</td><td style="padding:13px;text-align:center">'+r.accuracy+'%</td><td style="padding:13px;text-align:center">'+new Date(r.created_at).toLocaleString("ko-KR")+'</td></tr>').join('')+'</tbody></table>';
+      if(!rows.length){
+        el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(rankingDifficulty)+' 단계에는 아직 기록이 없습니다.</div>';
+        return;
+      }
+
+      el.innerHTML=
+        '<table style="width:100%;border-collapse:collapse;min-width:620px"><thead><tr>'+
+        ['순위','닉네임','난이도','점수','정답률','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+
+        '</tr></thead><tbody>'+
+        rows.map((r,i)=>
+          '<tr>'+
+          '<td style="padding:13px;text-align:center;font-weight:900">'+(i+1)+'</td>'+
+          '<td style="padding:13px;text-align:center;font-weight:900">'+escapeHtml(r.nickname||'')+'</td>'+
+          '<td style="padding:13px;text-align:center">'+escapeHtml(r.difficulty||rankingDifficulty)+'</td>'+
+          '<td style="padding:13px;text-align:center;font-weight:900">'+r.score+'</td>'+
+          '<td style="padding:13px;text-align:center">'+r.accuracy+'%</td>'+
+          '<td style="padding:13px;text-align:center">'+new Date(r.created_at).toLocaleString('ko-KR')+'</td>'+
+          '</tr>'
+        ).join('')+
+        '</tbody></table>';
+    }else{
+      const rows=await getCubeRankings(rankingDifficulty);
+
+      if(!rows.length){
+        el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(rankingDifficulty)+' 단계에는 아직 블록깎기 기록이 없습니다.</div>';
+        return;
+      }
+
+      el.innerHTML=
+        '<table style="width:100%;border-collapse:collapse;min-width:760px"><thead><tr>'+
+        ['순위','닉네임','난이도','1판','2판','3판','합계','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+
+        '</tr></thead><tbody>'+
+        rows.map((r,i)=>
+          '<tr>'+
+          '<td style="padding:13px;text-align:center;font-weight:900">'+(i+1)+'</td>'+
+          '<td style="padding:13px;text-align:center;font-weight:900">'+escapeHtml(r.nickname||'')+'</td>'+
+          '<td style="padding:13px;text-align:center">'+escapeHtml(r.difficulty||rankingDifficulty)+'</td>'+
+          '<td style="padding:13px;text-align:center">'+r.round1_score+'</td>'+
+          '<td style="padding:13px;text-align:center">'+r.round2_score+'</td>'+
+          '<td style="padding:13px;text-align:center">'+r.round3_score+'</td>'+
+          '<td style="padding:13px;text-align:center;font-weight:950">'+r.total_score+' / 300</td>'+
+          '<td style="padding:13px;text-align:center">'+new Date(r.created_at).toLocaleString('ko-KR')+'</td>'+
+          '</tr>'
+        ).join('')+
+        '</tbody></table>';
+    }
   }catch(error){
     console.error(error);
-    el.innerHTML='<div style="padding:35px;text-align:center;color:#c83c45">랭킹을 불러오지 못했습니다.</div>';
+    const hint=rankingGame==='cube'
+      ?'<br><span style="font-size:13px">처음 한 번은 함께 제공한 Supabase SQL 패치를 실행해야 합니다.</span>'
+      :'';
+    el.innerHTML='<div style="padding:35px;text-align:center;color:#c83c45">랭킹을 불러오지 못했습니다.'+hint+'</div>';
   }
 }
 
-function escapeHtml(x){return x.replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
-
 async function resetRankings(){
-  const pw=window.prompt("랭킹 초기화 비밀번호를 입력하세요.");
+  const pw=window.prompt('색맞추기와 블록깎기 랭킹을 모두 초기화할 비밀번호를 입력하세요.');
   if(pw===null)return;
-  if(pw!=="6249"){
-    alert("비밀번호가 올바르지 않습니다.");
-    return;
-  }
-  if(!window.confirm("랭킹보드의 모든 기록을 삭제할까요? 삭제하면 복구할 수 없습니다."))return;
+  if(pw!=='6249'){alert('비밀번호가 올바르지 않습니다.');return}
+  if(!window.confirm('색맞추기와 블록깎기 랭킹의 모든 기록을 삭제할까요? 삭제하면 복구할 수 없습니다.'))return;
 
   try{
-    const {error}=await supabaseClient.rpc("reset_rankings",{admin_password:pw});
+    const {error}=await supabaseClient.rpc('reset_all_rankings',{admin_password:pw});
     if(error)throw error;
-    alert("랭킹보드가 초기화되었습니다.");
+    alert('전체 랭킹보드가 초기화되었습니다.');
     await renderRankings();
   }catch(error){
     console.error(error);
-    alert("랭킹 초기화 중 오류가 발생했습니다.");
+    alert('랭킹 초기화 중 오류가 발생했습니다. Supabase SQL 패치가 적용되어 있는지 확인해주세요.');
   }
 }
 
-function next(){
- if(q>=10)return finish();
- q++;locked=false;document.getElementById("qn").textContent=q;document.getElementById("sc").textContent=score;document.getElementById("pg").style.width=q*10+"%";
- document.getElementById("answers").innerHTML="";document.getElementById("feedback").textContent="";
- let a=pattern(size),missing=Math.floor(Math.random()*a.length);answer=a[missing];
- draw(a,-1);memory(a,missing);
-}
-function draw(a,missing){
- let g=document.getElementById("grid");g.style.gridTemplateColumns=`repeat(${size},1fr)`;g.innerHTML="";
- a.forEach((c,i)=>{let x=document.createElement("div");x.className="cell "+(i===missing?"blank":c);g.appendChild(x)})
-}
-function memory(a,missing){
- clearInterval(timer);clearInterval(answerTimer);
- const duration=7;
- let left=duration;
- prepareAnswers();
- document.getElementById("timer").textContent=duration+"초";
- document.getElementById("phase").textContent="완성된 모형을 기억하세요!";
- document.getElementById("status").textContent="7초 동안 모형을 자세히 살펴보세요. 아래 색상 선택지는 잠시 후 선택할 수 있습니다.";
- timer=setInterval(()=>{
-   left--;
-   document.getElementById("timer").textContent=left+"초";
-   if(left<=0){
-     clearInterval(timer);
-     draw(a,missing);
-     document.getElementById("phase").textContent="빈칸의 색깔을 선택하세요!";
-     document.getElementById("status").textContent="5초 안에 빈칸의 색깔을 골라보세요.";
-     activateAnswers();
-   }
- },1000)
-}
+/* ================= 과일 개수 세기 ================= */
+const fruitConfig={easy:{label:'쉬움',min:7,max:10,bananaMin:1,bananaMax:4},middle:{label:'보통',min:9,max:14,bananaMin:1,bananaMax:4},normal:{label:'어려움',min:10,max:20,bananaMin:3,bananaMax:10},extreme:{label:'매우 어려움',min:25,max:40,bananaMin:3,bananaMax:10}};
+let fruitDifficulty='easy',fruitRunning=false,fruitTimers=[],fruitAnimations=[],appleCount=0,bananaCount=0,fruitSequence=[];
 
-function prepareAnswers(){
- clearInterval(answerTimer);
- const el=document.getElementById("answers");
- const choices=shuffle([...sets[size]]);
- el.innerHTML="";
- el.style.gridTemplateColumns=`repeat(${choices.length},minmax(0,1fr))`;
- choices.forEach(c=>{
-   const b=document.createElement("button");
-   b.className="answer";
-   b.disabled=true;
-   b.dataset.color=c;
-   b.innerHTML=`<div class="swatch ${C[c][1]}"></div>${C[c][0]}`;
-   b.onclick=()=>check(c,b);
-   el.appendChild(b);
- });
-}
+function startFruit(level){fruitDifficulty=level;const c=fruitConfig[level];document.getElementById('fruitBadge').textContent=c.label+' · 총 '+c.min+'~'+c.max+'개';const wrap=document.getElementById('fruitStageWrap');wrap.classList.remove('fruit-middle','fruit-normal','fruit-extreme');if(level==='middle')wrap.classList.add('fruit-middle');if(level==='normal')wrap.classList.add('fruit-normal');if(level==='extreme')wrap.classList.add('fruit-extreme');clearFruitRound();document.getElementById('fruitStatus').textContent='게임 시작을 누르면 과일이 지나갑니다.';document.getElementById('fruitRound').textContent='준비';document.getElementById('fruitPhase').textContent='지나가는 사과와 바나나를 각각 세어보세요!';document.getElementById('fruitAnswerForm').classList.remove('show');document.getElementById('fruitResult').classList.remove('show');show('fruitGame')}
+function makeFruitCounts(c){let total,banana,apple;do{total=rand(c.min,c.max);banana=rand(c.bananaMin,Math.min(c.bananaMax,total-1));apple=total-banana}while(apple===banana||apple<1);return{apple,banana}}
+function clearFruitRound(){fruitTimers.forEach(clearTimeout);fruitTimers=[];fruitAnimations.forEach(a=>{try{a.cancel()}catch(e){}});fruitAnimations=[];document.getElementById('fruitStage').querySelectorAll('.fruit').forEach(el=>el.remove());fruitRunning=false;document.getElementById('fruitStartBtn').disabled=false;document.getElementById('fruitStopBtn').disabled=true}
+function createFruit(type){if(!fruitRunning)return;const el=document.createElement('div');el.className='fruit';el.textContent=type==='apple'?'🍎':'🍌';let top=50,fontSize=44,duration=4800,verticalShift=0;if(fruitDifficulty==='easy'){top=50;fontSize=44;duration=4800}else if(fruitDifficulty==='middle'){top=rand(40,60);fontSize=rand(41,47);duration=rand(3300,4100)}else if(fruitDifficulty==='normal'){top=rand(32,68);fontSize=rand(39,47);duration=rand(2300,3150)}else{top=rand(28,72);fontSize=rand(36,48);duration=rand(1500,2500);verticalShift=rand(-12,12)}el.style.top=top+'%';el.style.fontSize=fontSize+'px';document.getElementById('fruitStage').appendChild(el);const distance=document.getElementById('fruitStage').clientWidth+160;const anim=el.animate([{transform:'translate(0,-50%)'},{transform:`translate(-${distance}px,calc(-50% + ${verticalShift}px))`}],{duration,easing:'linear',fill:'forwards'});fruitAnimations.push(anim);anim.onfinish=()=>el.remove()}
+function scheduleFruits(){let t=500,maxEnd=0;fruitSequence.forEach(type=>{let gap=1000,maxTravel=4800;if(fruitDifficulty==='easy'){gap=1250;maxTravel=4800}else if(fruitDifficulty==='middle'){gap=rand(600,950);if(Math.random()<.15)gap=rand(420,580);maxTravel=4100}else if(fruitDifficulty==='normal'){gap=rand(450,760);if(Math.random()<.20)gap=rand(320,460);if(Math.random()<.10)gap=rand(780,900);maxTravel=3150}else{gap=rand(220,520);if(Math.random()<.18)gap=rand(110,180);if(Math.random()<.10)gap=rand(600,800);maxTravel=2500}t+=gap;const spawn=t;fruitTimers.push(setTimeout(()=>{if(fruitRunning)createFruit(type)},spawn));maxEnd=Math.max(maxEnd,spawn+maxTravel)});fruitTimers.push(setTimeout(()=>{if(!fruitRunning)return;fruitRunning=false;document.getElementById('fruitStartBtn').disabled=false;document.getElementById('fruitStopBtn').disabled=true;document.getElementById('fruitStatus').textContent='모든 과일이 지나갔습니다!';document.getElementById('fruitRound').textContent='정답 입력';document.getElementById('fruitAnswerForm').classList.add('show');document.getElementById('appleInput').value='';document.getElementById('bananaInput').value='';document.getElementById('appleInput').focus()},maxEnd+500))}
+function startFruitRound(){clearFruitRound();fruitRunning=true;document.getElementById('fruitStartBtn').disabled=true;document.getElementById('fruitStopBtn').disabled=false;document.getElementById('fruitAnswerForm').classList.remove('show');document.getElementById('fruitResult').classList.remove('show');const c=fruitConfig[fruitDifficulty];const counts=makeFruitCounts(c);appleCount=counts.apple;bananaCount=counts.banana;fruitSequence=[...Array(appleCount).fill('apple'),...Array(bananaCount).fill('banana')];shuffle(fruitSequence);document.getElementById('fruitStatus').textContent=fruitDifficulty==='easy'?'사과와 바나나를 각각 세어보세요!':'블라인드 사이로 지나가는 사과와 바나나를 각각 세어보세요!';document.getElementById('fruitRound').textContent='진행 중';scheduleFruits()}
+function stopFruitRound(){clearFruitRound();document.getElementById('fruitStatus').textContent='게임이 중단되었습니다.';document.getElementById('fruitRound').textContent='중단';document.getElementById('fruitAnswerForm').classList.remove('show')}
+function leaveFruitGame(){clearFruitRound();show('difficulty')}
+function submitFruitAnswer(){
+  const ar=document.getElementById('appleInput').value.trim();
+  const br=document.getElementById('bananaInput').value.trim();
+  const result=document.getElementById('fruitResult');
 
-function activateAnswers(){
- clearInterval(answerTimer);
- answerStart=Date.now();
- document.querySelectorAll(".answer").forEach(b=>b.disabled=false);
- document.getElementById("timer").textContent="5초";
- answerTimer=setInterval(()=>{
-   const elapsed=(Date.now()-answerStart)/1000;
-   const remain=Math.max(0,5-Math.ceil(elapsed));
-   document.getElementById("timer").textContent=remain+"초";
-   if(elapsed>=5){
-     clearInterval(answerTimer);
-     if(!locked)timeoutAnswer();
-   }
- },100);
-}
-function check(c,b){
- if(locked)return;clearInterval(answerTimer);locked=true;
- let bs=[...document.querySelectorAll(".answer")];
- if(c===answer){right++;let elapsed=(Date.now()-answerStart)/1000;let earned=Math.max(0,100-Math.floor(elapsed)*20);score+=earned;b.classList.add("correct");document.getElementById("feedback").textContent="정답입니다! ✓";document.getElementById("feedback").className="feedback ok"}
- else{b.classList.add("wrong");bs.find(x=>x.textContent.includes(C[answer][0])).classList.add("correct");document.getElementById("feedback").textContent="아쉬워요! 정답은 "+C[answer][0]+"입니다.";document.getElementById("feedback").className="feedback no"}
- document.getElementById("sc").textContent=score;setTimeout(next,1100)
-}
-function timeoutAnswer(){if(locked)return;locked=true;let bs=[...document.querySelectorAll(".answer")];let correctBtn=bs.find(x=>x.textContent.includes(C[answer][0]));if(correctBtn)correctBtn.classList.add("correct");document.getElementById("feedback").textContent="시간 초과! 정답은 "+C[answer][0]+"입니다.";document.getElementById("feedback").className="feedback no";document.getElementById("timer").textContent="0초";setTimeout(next,1100)}
+  result.classList.add('show');
 
-async function finish(){
-  show("result");
-  document.getElementById("fs").textContent=score;
-  document.getElementById("playerResult").textContent=nickname+" · "+({3:"쉬움",5:"보통",7:"어려움",9:"매우 어려움"}[size]);
-  document.getElementById("cc").textContent=right+"/10";
-  document.getElementById("ac").textContent=right*10+"%";
-  document.getElementById("rk").textContent=right>=9?"MASTER":right>=7?"GOLD":right>=5?"SILVER":"BRONZE";
-
-  try{
-    await saveRanking();
-  }catch(error){
-    console.error(error);
-    alert("게임 기록을 랭킹 서버에 저장하지 못했습니다.");
+  if(ar===''||br===''){
+    result.innerHTML='<b>사과와 바나나 개수를 모두 입력해주세요.</b>';
+    result.scrollIntoView({behavior:'smooth',block:'nearest'});
+    return;
   }
+
+  const ag=Number(ar),bg=Number(br);
+  const appleDiff=Math.abs(ag-appleCount);
+  const bananaDiff=Math.abs(bg-bananaCount);
+  const fruitScore=Math.max(0,100-(appleDiff+bananaDiff)*10);
+
+  if(ag===appleCount&&bg===bananaCount){
+    result.innerHTML='<div style="font-size:20px;font-weight:900">🎉 모두 정답입니다!</div><div style="margin-top:8px;font-size:24px;font-weight:900;color:#5b49d6">점수 '+fruitScore+'점</div><div style="margin-top:6px">🍎 사과 <b>'+appleCount+'개</b> · 🍌 바나나 <b>'+bananaCount+'개</b></div>';
+  }else{
+    result.innerHTML='<div style="font-size:20px;font-weight:900">결과를 확인해보세요!</div><div style="margin-top:8px;font-size:24px;font-weight:900;color:#5b49d6">점수 '+fruitScore+'점</div><div style="margin-top:6px">입력: 🍎 '+ag+'개 · 🍌 '+bg+'개<br>정답: 🍎 <b>'+appleCount+'개</b> · 🍌 <b>'+bananaCount+'개</b></div><div style="margin-top:6px;color:#7180a0;font-size:13px">사과와 바나나의 총 오차 1개당 10점씩 감점됩니다.</div>';
+  }
+
+  document.getElementById('fruitRound').textContent='결과 확인';
+  document.getElementById('fruitStatus').textContent='다시 도전하려면 게임 시작을 눌러주세요.';
+  result.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-</script></body></html>
+</script>
+</body>
+</html>
