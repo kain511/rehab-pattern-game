@@ -1239,17 +1239,17 @@ async function renderRankings(){
 
       el.innerHTML=
         '<table style="width:100%;border-collapse:collapse;min-width:760px"><thead><tr>'+
-        ['순위','닉네임','난이도','1판','2판','3판','합계','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+
+        ['순위','닉네임','난이도','합계','1판','2판','3판','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+
         '</tr></thead><tbody>'+
         rows.map((r,i)=>
           '<tr>'+
           '<td style="padding:13px;text-align:center;font-weight:900">'+(i+1)+'</td>'+
           '<td style="padding:13px;text-align:center;font-weight:900">'+escapeHtml(r.nickname||'')+'</td>'+
           '<td style="padding:13px;text-align:center">'+escapeHtml(r.difficulty||rankingDifficulty)+'</td>'+
+          '<td style="padding:13px;text-align:center;font-weight:950">'+r.total_score+' / 300</td>'+
           '<td style="padding:13px;text-align:center">'+r.round1_score+'</td>'+
           '<td style="padding:13px;text-align:center">'+r.round2_score+'</td>'+
           '<td style="padding:13px;text-align:center">'+r.round3_score+'</td>'+
-          '<td style="padding:13px;text-align:center;font-weight:950">'+r.total_score+' / 300</td>'+
           '<td style="padding:13px;text-align:center">'+new Date(r.created_at).toLocaleString('ko-KR')+'</td>'+
           '</tr>'
         ).join('')+
