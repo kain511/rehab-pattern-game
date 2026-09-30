@@ -230,6 +230,8 @@ body.review-scroll{
   <div class="ranking-game-tabs">
     <button id="rankingPatternTab" class="ranking-game-tab selected" onclick="setRankingGame('pattern')">🎨 색맞추기</button>
     <button id="rankingCubeTab" class="ranking-game-tab" onclick="setRankingGame('cube')">🧊 블록깎기</button>
+    <button id="rankingObjectTab" class="ranking-game-tab" onclick="setRankingGame('object')">🧺 사라진 물건</button>
+    <button id="rankingHwatuTab" class="ranking-game-tab" onclick="setRankingGame('hwatu')">🎴 화투패</button>
   </div>
   <div id="rankingTitle" class="title">🏆 색맞추기 랭킹보드</div>
   <div id="rankingSub" class="sub">난이도를 선택하면 해당 난이도의 점수 순위가 표시됩니다.</div>
@@ -1308,6 +1310,33 @@ async function saveCubeRankingSeries(){
   return data;
 }
 
+async function getMemoryRankings(game,difficulty=rankingDifficulty){
+  const {data,error}=await supabaseClient
+    .from('memory_rankings')
+    .select('nickname,game,difficulty,score,accuracy,created_at')
+    .eq('game',game)
+    .eq('difficulty',difficulty)
+    .order('score',{ascending:false})
+    .order('accuracy',{ascending:false})
+    .order('created_at',{ascending:true})
+    .limit(100);
+
+  if(error)throw error;
+  return data||[];
+}
+
+async function saveMemoryRanking(game,difficulty,gameScore,accuracy){
+  const {data,error}=await supabaseClient.rpc('save_best_memory_ranking',{
+    p_nickname:nickname,
+    p_game:game,
+    p_difficulty:difficulty,
+    p_score:gameScore,
+    p_accuracy:accuracy
+  });
+  if(error)throw error;
+  return data;
+}
+
 function openRanking(game='pattern',difficulty='쉬움'){
   rankingGame=game;
   rankingDifficulty=difficulty||'쉬움';
@@ -1328,14 +1357,26 @@ function setRankingGame(game){
 function updateRankingGameUI(){
   document.getElementById('rankingPatternTab').classList.toggle('selected',rankingGame==='pattern');
   document.getElementById('rankingCubeTab').classList.toggle('selected',rankingGame==='cube');
+  document.getElementById('rankingObjectTab').classList.toggle('selected',rankingGame==='object');
+  document.getElementById('rankingHwatuTab').classList.toggle('selected',rankingGame==='hwatu');
 
-  document.getElementById('rankingTitle').textContent=
-    rankingGame==='pattern'?'🏆 색맞추기 랭킹보드':'🏆 블록깎기 랭킹보드';
+  const titles={
+    pattern:'🏆 색맞추기 랭킹보드',
+    cube:'🏆 블록깎기 랭킹보드',
+    object:'🏆 사라진 물건 찾기 랭킹보드',
+    hwatu:'🏆 화투패 기억하기 랭킹보드'
+  };
+  document.getElementById('rankingTitle').textContent=titles[rankingGame]||titles.pattern;
 
-  document.getElementById('rankingSub').textContent=
-    rankingGame==='pattern'
-      ?'난이도를 선택하면 색맞추기 점수 순위가 표시됩니다.'
-      :'같은 난이도로 3판을 플레이한 합계 점수(최대 300점) 순위입니다.';
+  if(rankingGame==='cube'){
+    document.getElementById('rankingSub').textContent='같은 난이도로 3판을 플레이한 합계 점수(최대 300점) 순위입니다.';
+  }else if(rankingGame==='object'){
+    document.getElementById('rankingSub').textContent='10문제 총점(최대 1,000점) 기준 사라진 물건 찾기 순위입니다.';
+  }else if(rankingGame==='hwatu'){
+    document.getElementById('rankingSub').textContent='10문제 총점(최대 1,000점) 기준 화투패 기억하기 순위입니다.';
+  }else{
+    document.getElementById('rankingSub').textContent='난이도를 선택하면 색맞추기 점수 순위가 표시됩니다.';
+  }
 }
 
 function renderRankingFilters(){
@@ -1366,19 +1407,18 @@ function setRankingDifficulty(difficulty){
 
 async function renderRankings(){
   const el=document.getElementById('rankingTable');
-  const gameName=rankingGame==='pattern'?'색맞추기':'블록깎기';
+  const gameNames={pattern:'색맞추기',cube:'블록깎기',object:'사라진 물건 찾기',hwatu:'화투패 기억하기'};
+  const gameName=gameNames[rankingGame]||'색맞추기';
 
   el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(gameName+' · '+rankingDifficulty)+' 랭킹을 불러오는 중입니다...</div>';
 
   try{
     if(rankingGame==='pattern'){
       const rows=await getPatternRankings(rankingDifficulty);
-
       if(!rows.length){
         el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(rankingDifficulty)+' 단계에는 아직 기록이 없습니다.</div>';
         return;
       }
-
       el.innerHTML=
         '<table style="width:100%;border-collapse:collapse;min-width:620px"><thead><tr>'+
         ['순위','닉네임','난이도','점수','정답률','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+
@@ -1394,14 +1434,12 @@ async function renderRankings(){
           '</tr>'
         ).join('')+
         '</tbody></table>';
-    }else{
+    }else if(rankingGame==='cube'){
       const rows=await getCubeRankings(rankingDifficulty);
-
       if(!rows.length){
         el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(rankingDifficulty)+' 단계에는 아직 블록깎기 기록이 없습니다.</div>';
         return;
       }
-
       el.innerHTML=
         '<table style="width:100%;border-collapse:collapse;min-width:760px"><thead><tr>'+
         ['순위','닉네임','난이도','합계','1판','2판','3판','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+
@@ -1419,10 +1457,32 @@ async function renderRankings(){
           '</tr>'
         ).join('')+
         '</tbody></table>';
+    }else{
+      const rows=await getMemoryRankings(rankingGame,rankingDifficulty);
+      if(!rows.length){
+        el.innerHTML='<div style="padding:35px;text-align:center;color:#7180a0">'+escapeHtml(rankingDifficulty)+' 단계에는 아직 '+escapeHtml(gameName)+' 기록이 없습니다.</div>';
+        return;
+      }
+      el.innerHTML=
+        '<table style="width:100%;border-collapse:collapse;min-width:620px"><thead><tr>'+
+        ['순위','닉네임','난이도','점수','정답률','기록 시간'].map(x=>'<th style="padding:14px;border-bottom:2px solid #e5ebf5;text-align:center">'+x+'</th>').join('')+
+        '</tr></thead><tbody>'+
+        rows.map((r,i)=>
+          '<tr>'+
+          '<td style="padding:13px;text-align:center;font-weight:900">'+(i+1)+'</td>'+
+          '<td style="padding:13px;text-align:center;font-weight:900">'+escapeHtml(r.nickname||'')+'</td>'+
+          '<td style="padding:13px;text-align:center">'+escapeHtml(r.difficulty||rankingDifficulty)+'</td>'+
+          '<td style="padding:13px;text-align:center;font-weight:950">'+r.score+' / 1000</td>'+
+          '<td style="padding:13px;text-align:center">'+r.accuracy+'%</td>'+
+          '<td style="padding:13px;text-align:center">'+new Date(r.created_at).toLocaleString('ko-KR')+'</td>'+
+          '</tr>'
+        ).join('')+
+        '</tbody></table>';
     }
   }catch(error){
     console.error(error);
-    const hint=rankingGame==='cube'
+    const needsPatch=(rankingGame==='cube'||rankingGame==='object'||rankingGame==='hwatu');
+    const hint=needsPatch
       ?'<br><span style="font-size:13px">처음 한 번은 함께 제공한 Supabase SQL 패치를 실행해야 합니다.</span>'
       :'';
     el.innerHTML='<div style="padding:35px;text-align:center;color:#c83c45">랭킹을 불러오지 못했습니다.'+hint+'</div>';
@@ -1430,10 +1490,10 @@ async function renderRankings(){
 }
 
 async function resetRankings(){
-  const pw=window.prompt('색맞추기와 블록깎기 랭킹을 모두 초기화할 비밀번호를 입력하세요.');
+  const pw=window.prompt('전체 게임 랭킹을 초기화할 비밀번호를 입력하세요.');
   if(pw===null)return;
   if(pw!=='6249'){alert('비밀번호가 올바르지 않습니다.');return}
-  if(!window.confirm('색맞추기와 블록깎기 랭킹의 모든 기록을 삭제할까요? 삭제하면 복구할 수 없습니다.'))return;
+  if(!window.confirm('색맞추기, 블록깎기, 사라진 물건, 화투패 랭킹의 모든 기록을 삭제할까요? 삭제하면 복구할 수 없습니다.'))return;
 
   try{
     const {error}=await supabaseClient.rpc('reset_all_rankings',{admin_password:pw});
@@ -1610,10 +1670,10 @@ function setInstruction(game){
     text.innerHTML='지나가는 🍎 사과와 🍌 바나나의 개수를 각각 세어 기억하세요.<br>과일이 모두 지나가면 사과와 바나나가 각각 몇 개였는지 입력합니다.<br>난이도가 올라갈수록 시야가 좁아지고 속도 변화가 커집니다.<br>과일 개수 세기 게임은 <b>점수만</b> 확인합니다.';
   }else if(game==='object'){
     title.textContent='사라진 물건 찾기 · 플레이 방법';
-    text.innerHTML='테이블 위의 물건을 <b>7초 동안</b> 기억하세요.<br>선택지는 처음부터 보이지만 7초 동안은 고를 수 없습니다.<br>물건이 사라지면 <b>10초 안</b>에 사라진 물건을 모두 선택하세요.<br>난이도가 올라갈수록 기억해야 하는 물건 수와 정답 개수가 하나씩 늘어납니다.';
+    text.innerHTML='테이블 위의 물건을 <b>7초 동안</b> 기억하세요.<br>선택지는 처음부터 보이지만 7초 동안은 고를 수 없습니다.<br>물건이 사라지면 <b>10초 안</b>에 사라진 물건을 모두 선택하세요.<br>정답이면 100점에서 <b>1초당 10점씩 감점</b>됩니다.<br>난이도가 올라갈수록 기억해야 하는 물건 수와 정답 개수가 하나씩 늘어납니다.';
   }else if(game==='hwatu'){
     title.textContent='화투패 기억하기 · 플레이 방법';
-    text.innerHTML='실제 한국식 화투 48장 도안을 사용합니다.<br>제시된 화투패를 <b>7초 동안</b> 기억하세요.<br>선택지는 처음부터 보이지만 7초 동안은 고를 수 없습니다.<br>7초 뒤 <b>10초 안</b>에 아까 봤던 화투패를 모두 선택하세요.<br>난이도가 올라갈수록 기억해야 하는 화투패 수와 선택지가 하나씩 늘어납니다.<br>같은 그림으로 보이는 중복 패는 한 문제 안에 함께 나오지 않습니다.';
+    text.innerHTML='실제 한국식 화투 48장 도안을 사용합니다.<br>제시된 화투패를 <b>7초 동안</b> 기억하세요.<br>선택지는 처음부터 보이지만 7초 동안은 고를 수 없습니다.<br>7초 뒤 <b>10초 안</b>에 아까 봤던 화투패를 모두 선택하세요.<br>정답이면 100점에서 <b>1초당 10점씩 감점</b>됩니다.<br>난이도가 올라갈수록 기억해야 하는 화투패 수와 선택지가 하나씩 늘어납니다.<br>같은 그림으로 보이는 중복 패는 한 문제 안에 함께 나오지 않습니다.';
   }else{
     title.textContent='큐브 조각하기 · 플레이 방법';
     text.innerHTML='<b>같은 난이도로 총 3판</b>을 플레이하고 세 판의 점수를 합산합니다.<br>매 판 목표 큐브가 먼저 <b>10초 동안 표시</b>되며, 이후 목표 큐브는 사라지고 내 큐브만 표시됩니다.<br>기억한 모양대로 필요 없는 블록을 클릭/터치해서 제거하세요.<br><b>쉬움·보통</b>은 좌우로만 회전하고, <b>어려움·매우 어려움</b>은 위·아래까지 자유롭게 회전합니다.<br>각 판 제한시간은 <b>60초</b>입니다. 10초 안에 완성하면 100점이며, 이후 1초당 1점 감점되고 실수 1개당 5점이 추가 감점됩니다.<br><b>3판 합계(최대 300점)</b>가 블록깎기 랭킹보드에 저장됩니다.';
@@ -1802,7 +1862,7 @@ function showObjectReview(timedOut){
   const answerNames=objectMissing.map(x=>x.name).sort();
   const selected=[...objectSelected].sort();
   const correct=!timedOut && answerNames.join('|')===selected.join('|');
-  if(correct){objectRight++;const earned=Math.max(0,100-Math.floor((Date.now()-objectAnswerStart)/1000)*20);objectScore+=earned;document.getElementById('objectScore').textContent=objectScore;}
+  if(correct){objectRight++;const earned=Math.max(0,100-Math.floor((Date.now()-objectAnswerStart)/1000)*10);objectScore+=earned;document.getElementById('objectScore').textContent=objectScore;}
   document.querySelectorAll('#objectChoices .memory-choice').forEach(btn=>{btn.disabled=true;const n=btn.dataset.name;if(answerNames.includes(n))btn.classList.add('correct');else if(selected.includes(n))btn.classList.add('wrong');});
   const review=document.getElementById('objectReview');
   review.className='memory-review-panel show';
@@ -1813,12 +1873,13 @@ function showObjectReview(timedOut){
   document.getElementById('objectStatus').textContent='완성된 화면을 다시 보고 다음 문제로 넘어가세요.';
   document.getElementById('objectSubmitWrap').innerHTML='';
 }
-function finishObjectGame(){
+async function finishObjectGame(){
   document.getElementById('objectSideAction').innerHTML='';
   document.getElementById('objectBoard').innerHTML='';document.getElementById('objectChoices').innerHTML='';document.getElementById('objectSubmitWrap').innerHTML='';
   const review=document.getElementById('objectReview');review.className='memory-review-panel show';
   const acc=Math.round((objectRight/10)*100);
-  review.innerHTML=`<div style="font-size:48px">🏆</div><div class="memory-review-title">사라진 물건 찾기 종료!</div><div class="memory-summary">${objectScore}점</div><div class="memory-review-text">${nickname} · ${objectConfig[objectDifficulty].label}<br>정답 ${objectRight}/10 · 정확도 ${acc}%</div><div class="actions" style="margin-top:14px"><button class="primary" onclick="startObject('${objectDifficulty}')">다시 플레이</button><button class="secondary" onclick="show('difficulty')">난이도 변경</button><button class="secondary" onclick="show('gameSelect')">게임 변경</button></div>`;
+  review.innerHTML=`<div style="font-size:48px">🏆</div><div class="memory-review-title">사라진 물건 찾기 종료!</div><div class="memory-summary">${objectScore}점</div><div class="memory-review-text">${nickname} · ${objectConfig[objectDifficulty].label}<br>정답 ${objectRight}/10 · 정확도 ${acc}%</div><div class="actions" style="margin-top:14px"><button class="primary" onclick="startObject('${objectDifficulty}')">다시 플레이</button><button class="secondary" onclick="openRanking('object','${objectConfig[objectDifficulty].label}')">🏆 랭킹 보기</button><button class="secondary" onclick="show('difficulty')">난이도 변경</button><button class="secondary" onclick="show('gameSelect')">게임 변경</button></div>`;
+  try{await saveMemoryRanking('object',objectConfig[objectDifficulty].label,objectScore,acc)}catch(error){console.error(error);alert('사라진 물건 찾기 기록을 랭킹 서버에 저장하지 못했습니다. Supabase SQL 패치를 확인해주세요.')}
   document.getElementById('objectPhase').textContent='게임 종료!';document.getElementById('objectTimer').textContent='완료';document.getElementById('objectStatus').textContent='결과를 확인하세요.';
 }
 
@@ -1887,7 +1948,7 @@ function showHwatuReview(timedOut){
   const answerIds=hwatuShown.map(x=>x.id).sort();
   const selected=[...hwatuSelected].sort();
   const correct=!timedOut && answerIds.join('|')===selected.join('|');
-  if(correct){hwatuRight++;const earned=Math.max(0,100-Math.floor((Date.now()-hwatuAnswerStart)/1000)*20);hwatuScore+=earned;document.getElementById('hwatuScore').textContent=hwatuScore;}
+  if(correct){hwatuRight++;const earned=Math.max(0,100-Math.floor((Date.now()-hwatuAnswerStart)/1000)*10);hwatuScore+=earned;document.getElementById('hwatuScore').textContent=hwatuScore;}
   document.querySelectorAll('#hwatuChoices .memory-choice').forEach(btn=>{btn.disabled=true;const id=btn.dataset.id;if(answerIds.includes(id))btn.classList.add('correct');else if(selected.includes(id))btn.classList.add('wrong');});
   const answerNames=hwatuShown.map(x=>x.month+' '+x.name+' '+x.rank).join(', ');
   const selectedNames=hwatuSelected.map(id=>{const c=hwatuPool.find(x=>x.id===id);return c?c.month+' '+c.name+' '+c.rank:id}).join(', ');
@@ -1896,14 +1957,15 @@ function showHwatuReview(timedOut){
   document.getElementById('hwatuSideAction').innerHTML=`<button class="primary" onclick="nextHwatuQuestion()">${hwatuQ>=10?'결과 보기':'다음 문제'}</button>`;
   document.getElementById('hwatuPhase').textContent=correct?'정답이에요!':'오답이에요!';document.getElementById('hwatuTimer').textContent='결과 확인';document.getElementById('hwatuStatus').textContent='정답 패를 다시 보고 다음 문제로 넘어가세요.';document.getElementById('hwatuSubmitWrap').innerHTML='';
 }
-function finishHwatuGame(){
+async function finishHwatuGame(){
   document.body.classList.remove('game-lock');
   document.body.classList.add('review-scroll');
   document.getElementById('hwatuSideAction').innerHTML='';
   document.getElementById('hwatuBoard').innerHTML='';document.getElementById('hwatuChoices').innerHTML='';document.getElementById('hwatuSubmitWrap').innerHTML='';
   const review=document.getElementById('hwatuReview');review.className='memory-review-panel show';
   const acc=Math.round((hwatuRight/10)*100);
-  review.innerHTML=`<div style="font-size:48px">🏆</div><div class="memory-review-title">화투패 기억하기 종료!</div><div class="memory-summary">${hwatuScore}점</div><div class="memory-review-text">${nickname} · ${hwatuConfig[hwatuDifficulty].label}<br>정답 ${hwatuRight}/10 · 정확도 ${acc}%</div><div class="actions" style="margin-top:14px"><button class="primary" onclick="startHwatu('${hwatuDifficulty}')">다시 플레이</button><button class="secondary" onclick="show('difficulty')">난이도 변경</button><button class="secondary" onclick="show('gameSelect')">게임 변경</button></div>`;
+  review.innerHTML=`<div style="font-size:48px">🏆</div><div class="memory-review-title">화투패 기억하기 종료!</div><div class="memory-summary">${hwatuScore}점</div><div class="memory-review-text">${nickname} · ${hwatuConfig[hwatuDifficulty].label}<br>정답 ${hwatuRight}/10 · 정확도 ${acc}%</div><div class="actions" style="margin-top:14px"><button class="primary" onclick="startHwatu('${hwatuDifficulty}')">다시 플레이</button><button class="secondary" onclick="openRanking('hwatu','${hwatuConfig[hwatuDifficulty].label}')">🏆 랭킹 보기</button><button class="secondary" onclick="show('difficulty')">난이도 변경</button><button class="secondary" onclick="show('gameSelect')">게임 변경</button></div>`;
+  try{await saveMemoryRanking('hwatu',hwatuConfig[hwatuDifficulty].label,hwatuScore,acc)}catch(error){console.error(error);alert('화투패 기억하기 기록을 랭킹 서버에 저장하지 못했습니다. Supabase SQL 패치를 확인해주세요.')}
   document.getElementById('hwatuPhase').textContent='게임 종료!';document.getElementById('hwatuTimer').textContent='완료';document.getElementById('hwatuStatus').textContent='결과를 확인하세요.';
 }
 
