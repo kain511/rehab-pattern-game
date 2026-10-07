@@ -178,6 +178,107 @@ body.review-scroll{
   -webkit-overflow-scrolling:touch;
 }
 
+
+/* =========================================================
+   V10 모바일 플레이 최적화
+   - 휴대폰에서는 '현재 문제' 설명 팝업을 게임 위에 띄우지 않음
+   - 설명 문구는 기존 상단 phase/timer로 전달
+   - 정답 확인 후 '다음 문제' 버튼만 게임 아래 정상 흐름으로 표시
+   - 모바일 Safari 주소창/하단바 때문에 버튼이 잘리지 않도록 세로 스크롤 허용
+   ========================================================= */
+@media(max-width:900px){
+  /* 모바일 게임 화면은 뷰포트 높이에 강제로 잠그지 않음 */
+  body.game-lock{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    height:auto!important;
+    min-height:100vh!important;
+    overscroll-behavior-y:auto!important;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  /* 화면이 긴 경우 위쪽부터 자연스럽게 시작하고 아래로 스크롤 가능 */
+  .screen.active{
+    align-items:flex-start!important;
+  }
+
+  /* 기존 중앙 고정 '현재 문제' 팝업 제거 */
+  .current-problem-side{
+    display:block!important;
+    position:static!important;
+    right:auto!important;
+    top:auto!important;
+    transform:none!important;
+    z-index:auto!important;
+    width:100%!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    background:transparent!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+  }
+
+  /* 현재 문제 설명은 위의 phase/timer와 중복되므로 모바일에서 숨김 */
+  .current-problem-side h3,
+  .current-problem-side > p{
+    display:none!important;
+  }
+
+  /* 진행 중에는 비어 있어 보이지 않고, 정답 확인 후 버튼만 아래에 표시 */
+  .current-problem-action{
+    width:100%!important;
+    margin:10px 0 2px!important;
+    padding:0 4px!important;
+  }
+  .current-problem-action:empty{
+    display:none!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  .current-problem-action .primary{
+    width:min(100%,420px)!important;
+    min-height:50px!important;
+    display:block!important;
+    margin:0 auto!important;
+    font-size:17px!important;
+  }
+
+  /* 패턴/물건/화투 게임은 내용 높이에 맞춰 늘어나도록 허용 */
+  #patternGame .center,
+  #objectGame .memory-center,
+  #hwatuGame .memory-center{
+    overflow:visible!important;
+    min-height:0!important;
+  }
+
+  /* Safari 하단 주소창과 버튼 사이에 여유 공간 확보 */
+  #patternGame .wrap,
+  #objectGame .wrap,
+  #hwatuGame .wrap,
+  #fruitGame .wrap,
+  #cubeGame .wrap{
+    padding-bottom:84px!important;
+  }
+}
+
+@media(max-width:600px){
+  /* 작은 휴대폰에서 게임 본체가 화면 폭을 넘지 않도록 안전 여백 */
+  #patternGame .layout,
+  #objectGame .layout,
+  #hwatuGame .layout{
+    gap:8px!important;
+  }
+
+  #patternGame .center,
+  #objectGame .memory-center,
+  #hwatuGame .memory-center{
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+}
+
 </style>
 </head>
 <body>
