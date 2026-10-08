@@ -279,6 +279,143 @@ body.review-scroll{
   }
 }
 
+
+/* =========================================================
+   V11 노인 사용자 가독성 개선
+   - 기존 레이아웃을 유지하면서 작은 글자만 단계적으로 확대
+   - 버튼 터치 영역 확대
+   - 게임 화면의 '로비' 버튼을 크고 진하게 표시
+   ========================================================= */
+html,body{font-size:18px}
+button,input{font-size:18px}
+.primary,.secondary,.danger,.ranking-game-tab,.ranking-filter{
+  font-size:18px!important;
+  min-height:48px;
+}
+.sub{font-size:20px!important;line-height:1.65!important}
+.game-card p{font-size:19px!important;line-height:1.65!important}
+.instruction-box p{
+  font-size:24px!important;
+  line-height:1.7!important;
+  font-weight:850!important;
+}
+.ack{font-size:23px!important}
+.ack input{width:26px!important;height:26px!important}
+.diff{
+  grid-template-columns:repeat(auto-fit,minmax(165px,1fr))!important;
+}
+.diff button{min-height:168px!important;padding:22px 15px!important}
+.diff strong{font-size:23px!important}
+.diff small{font-size:19px!important;line-height:1.55!important}
+.num{font-size:34px!important}
+.top{
+  flex-wrap:wrap;
+  gap:10px 16px;
+}
+.brand{font-size:27px!important;line-height:1.3}
+.info{
+  font-size:18px!important;
+  line-height:1.35;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.badge{font-size:17px!important}
+.phase{font-size:22px!important;line-height:1.45}
+.timer{font-size:30px!important}
+.feedback{font-size:21px!important}
+.fruit-stage-head{font-size:18px!important}
+.fruit-answer,.fruit-result{font-size:19px!important}
+.fruit-answer input{font-size:20px!important}
+.cube-panel h3{font-size:21px!important}
+.cube-note{font-size:17px!important}
+.cube-pill{font-size:16px!important}
+.pattern-review-text,.memory-review-text{font-size:20px!important}
+.pattern-pill,.memory-pill{font-size:17px!important}
+#rankingTable{font-size:17px!important}
+
+/* 로비 버튼: 모든 게임에서 한눈에 보이도록 진한 남색 + 큰 터치 영역 */
+.top .info button[onclick^="leave"]{
+  background:#243b6b!important;
+  color:#fff!important;
+  border:2px solid #17294f!important;
+  min-width:84px!important;
+  min-height:50px!important;
+  padding:12px 18px!important;
+  border-radius:15px!important;
+  font-size:19px!important;
+  font-weight:950!important;
+  box-shadow:0 4px 10px rgba(28,48,88,.20);
+}
+
+/* 사라진 물건 찾기: 글자 라벨 없이 그림을 더 크게 */
+.object-card .label{display:none!important}
+.object-card .emoji{font-size:52px!important}
+.object-card{
+  width:108px!important;
+  height:108px!important;
+  gap:0!important;
+}
+#objectChoices{
+  grid-template-columns:repeat(auto-fit,minmax(88px,1fr))!important;
+  gap:10px!important;
+}
+#objectChoices .memory-choice{
+  min-height:104px!important;
+  padding:8px!important;
+}
+#objectChoices .memory-choice .emoji{
+  font-size:50px!important;
+  margin:0!important;
+}
+
+/* 패턴 선택지의 글자도 노인 사용자가 읽기 쉽게 */
+#answers .answer{font-size:18px!important;min-height:78px!important}
+
+@media(max-width:900px){
+  html,body{font-size:18px}
+  .game-card,.sub,.diff small{font-size:18px!important}
+  .instruction-box p{font-size:22px!important}
+  .primary,.secondary,.danger,.ranking-game-tab,.ranking-filter{font-size:17px!important}
+  .brand{font-size:22px!important;min-width:0}
+  .info{font-size:16px!important;gap:9px!important}
+  .badge{font-size:16px!important}
+  .phase{font-size:21px!important}
+  .timer{font-size:28px!important}
+  .diff{grid-template-columns:1fr 1fr!important}
+  .diff button{min-height:156px!important}
+  .top .info button[onclick^="leave"]{
+    min-width:80px!important;
+    min-height:48px!important;
+    padding:11px 16px!important;
+    font-size:18px!important;
+  }
+  .object-card{
+    width:98px!important;
+    height:98px!important;
+  }
+  .object-card .emoji{font-size:47px!important}
+  #objectChoices{grid-template-columns:repeat(auto-fit,minmax(82px,1fr))!important}
+  #objectChoices .memory-choice{min-height:98px!important}
+  #objectChoices .memory-choice .emoji{font-size:46px!important}
+  #rankingTable{font-size:16px!important}
+}
+
+@media(max-width:600px){
+  .top{align-items:flex-start!important}
+  .brand{font-size:21px!important}
+  .info{width:100%;justify-content:space-between!important;font-size:16px!important}
+  .instruction-box{padding:20px!important;margin:18px auto!important}
+  .instruction-box p{font-size:21px!important;line-height:1.65!important}
+  #instructions .wrap{padding:24px 18px!important}
+  #difficulty .wrap{padding:22px 16px!important}
+  .diff{gap:10px!important}
+  .diff button{min-height:145px!important;padding:18px 12px!important}
+  .diff strong{font-size:21px!important}
+  .diff small{font-size:17px!important}
+  .num{font-size:31px!important}
+  #answers .answer{font-size:17px!important}
+}
+
 </style>
 </head>
 <body>
@@ -2070,6 +2207,385 @@ async function finishHwatuGame(){
   document.getElementById('hwatuPhase').textContent='게임 종료!';document.getElementById('hwatuTimer').textContent='완료';document.getElementById('hwatuStatus').textContent='결과를 확인하세요.';
 }
 
+
+/* =========================================================
+   V11 피드백 반영
+   1) 설명 화면 간소화
+   2) 색깔 패턴 2×2 '매우 쉬움'
+   3) 과일 개수 세기 '매우 쉬움' (사과 2~5, 바나나 1~2)
+   4) 사라진 물건 찾기 '매우 쉬움' + 그림만 표시
+   5) 사라진 물건에서 지갑/칫솔 제거
+   ※ 화투/큐브의 게임 규칙과 난이도는 변경하지 않음
+   ========================================================= */
+
+/* ---------- 게임 설명: 플레이 방법만 남김 ---------- */
+setInstruction=function(game){
+  const title=document.getElementById('instructionTitle');
+  const text=document.getElementById('instructionText');
+
+  if(game==='pattern'){
+    title.textContent='색깔 패턴 맞추기 · 플레이 방법';
+    text.innerHTML='① 완성된 색깔 패턴을 <b>7초 동안</b> 기억하세요.<br>② 한 칸이 사라지면 <b>10초 안</b>에 원래 색깔을 선택하세요.';
+  }else if(game==='fruit'){
+    title.textContent='과일 개수 세기 · 플레이 방법';
+    text.innerHTML='① 지나가는 🍎 사과와 🍌 바나나를 각각 세어보세요.<br>② 모두 지나가면 사과와 바나나의 개수를 입력하세요.';
+  }else if(game==='object'){
+    title.textContent='사라진 물건 찾기 · 플레이 방법';
+    text.innerHTML='① 화면의 물건을 <b>7초 동안</b> 기억하세요.<br>② 물건이 사라지면 <b>10초 안</b>에 사라진 물건을 선택하세요.';
+  }else if(game==='hwatu'){
+    title.textContent='화투패 기억하기 · 플레이 방법';
+    text.innerHTML='① 제시된 화투패를 <b>7초 동안</b> 기억하세요.<br>② <b>10초 안</b>에 기억한 화투패를 모두 선택하세요.';
+  }else{
+    title.textContent='큐브 조각하기 · 플레이 방법';
+    text.innerHTML='① 목표 큐브를 <b>10초 동안</b> 기억하세요.<br>② 목표가 사라지면 큐브를 돌려 보며 필요 없는 블록을 제거해 같은 모양을 만드세요.<br>③ 제한시간은 <b>60초</b>입니다.';
+  }
+};
+
+/* ---------- 색깔 패턴: 2×2 매우 쉬움 ---------- */
+sets[2]=['red','yellow'];
+
+const v11OldPatternGenerator=pattern;
+pattern=function(n){
+  if(n!==2)return v11OldPatternGenerator(n);
+
+  const palette=makePalette(2);
+  /* 두 색이 모두 나오도록 2장씩 배치 후 섞음 */
+  return shuffle([palette[0],palette[0],palette[1],palette[1]]);
+};
+
+const v11PatternDifficultyName={
+  2:'매우 쉬움',
+  3:'쉬움',
+  5:'보통',
+  7:'어려움',
+  9:'매우 어려움'
+};
+const v11PatternBadge={
+  2:'매우 쉬움 · 2×2',
+  3:'쉬움 · 3×3',
+  5:'보통 · 5×5',
+  7:'어려움 · 7×7',
+  9:'매우 어려움 · 9×9'
+};
+
+startPattern=function(n){
+  size=n;q=0;score=0;right=0;previousPalette='';
+  document.getElementById('badge').textContent=v11PatternBadge[n];
+  show('patternGame');
+  nextPattern();
+};
+
+saveRanking=async function(){
+  const difficulty=v11PatternDifficultyName[size];
+  const {data,error}=await supabaseClient.rpc('save_best_ranking',{
+    p_nickname:nickname,
+    p_difficulty:difficulty,
+    p_grid_size:size,
+    p_score:score,
+    p_accuracy:right*10
+  });
+  if(error)throw error;
+  return data;
+};
+
+getPatternRankings=async function(difficulty=rankingDifficulty){
+  const gridSizeByDifficulty={
+    '매우 쉬움':2,
+    '쉬움':3,
+    '보통':5,
+    '어려움':7,
+    '매우 어려움':9
+  };
+  const gridSize=gridSizeByDifficulty[difficulty];
+  const {data,error}=await supabaseClient
+    .from('rankings')
+    .select('nickname,difficulty,grid_size,score,accuracy,created_at')
+    .eq('grid_size',gridSize)
+    .order('score',{ascending:false})
+    .order('accuracy',{ascending:false})
+    .order('created_at',{ascending:true})
+    .limit(100);
+  if(error)throw error;
+  return data||[];
+};
+
+finishPattern=async function(){
+  const difficulty=v11PatternDifficultyName[size];
+  show('patternResult');
+  document.getElementById('fs').textContent=score;
+  document.getElementById('playerResult').textContent=nickname+' · '+difficulty;
+  document.getElementById('cc').textContent=right+'/10';
+  document.getElementById('ac').textContent=right*10+'%';
+  document.getElementById('rk').textContent=right>=9?'MASTER':right>=7?'GOLD':right>=5?'SILVER':'BRONZE';
+
+  const rankingButton=document.querySelector('#patternResult button[onclick*="openRanking"]');
+  if(rankingButton){
+    rankingButton.setAttribute('onclick',"openRanking('pattern','"+difficulty+"')");
+  }
+
+  try{await saveRanking()}
+  catch(error){
+    console.error(error);
+    alert('게임 기록을 랭킹 서버에 저장하지 못했습니다.');
+  }
+};
+
+/* ---------- 과일 개수 세기: 매우 쉬움 ---------- */
+fruitConfig.veryEasy={
+  label:'매우 쉬움',
+  appleMin:2,
+  appleMax:5,
+  bananaMin:1,
+  bananaMax:2
+};
+
+makeFruitCounts=function(c){
+  if(c.appleMin!==undefined){
+    return{
+      apple:rand(c.appleMin,c.appleMax),
+      banana:rand(c.bananaMin,c.bananaMax)
+    };
+  }
+
+  let total,banana,apple;
+  do{
+    total=rand(c.min,c.max);
+    banana=rand(c.bananaMin,Math.min(c.bananaMax,total-1));
+    apple=total-banana;
+  }while(apple===banana||apple<1);
+  return{apple,banana};
+};
+
+startFruit=function(level){
+  fruitDifficulty=level;
+  const c=fruitConfig[level];
+
+  if(level==='veryEasy'){
+    document.getElementById('fruitBadge').textContent='매우 쉬움 · 사과 2~5 · 바나나 1~2';
+  }else{
+    document.getElementById('fruitBadge').textContent=c.label+' · 총 '+c.min+'~'+c.max+'개';
+  }
+
+  const wrap=document.getElementById('fruitStageWrap');
+  wrap.classList.remove('fruit-middle','fruit-normal','fruit-extreme');
+  if(level==='middle')wrap.classList.add('fruit-middle');
+  if(level==='normal')wrap.classList.add('fruit-normal');
+  if(level==='extreme')wrap.classList.add('fruit-extreme');
+
+  clearFruitRound();
+  document.getElementById('fruitStatus').textContent='게임 시작을 누르면 과일이 지나갑니다.';
+  document.getElementById('fruitRound').textContent='준비';
+  document.getElementById('fruitPhase').textContent='지나가는 사과와 바나나를 각각 세어보세요!';
+  document.getElementById('fruitAnswerForm').classList.remove('show');
+  document.getElementById('fruitResult').classList.remove('show');
+  show('fruitGame');
+};
+
+/* 새 매우 쉬움은 기존 '쉬움'과 동일한 이동 속도/간격 사용 */
+createFruit=function(type){
+  if(!fruitRunning)return;
+  const el=document.createElement('div');
+  el.className='fruit';
+  el.textContent=type==='apple'?'🍎':'🍌';
+
+  let top=50,fontSize=44,duration=4800,verticalShift=0;
+
+  if(fruitDifficulty==='veryEasy'||fruitDifficulty==='easy'){
+    top=50;fontSize=44;duration=4800;verticalShift=0;
+  }else if(fruitDifficulty==='middle'){
+    top=rand(44,56);fontSize=rand(41,47);duration=rand(3300,4100);verticalShift=0;
+  }else if(fruitDifficulty==='normal'){
+    top=50;fontSize=rand(39,47);duration=rand(2300,3150);verticalShift=0;
+  }else{
+    top=rand(28,72);fontSize=rand(36,48);duration=rand(1500,2500);verticalShift=rand(-12,12);
+  }
+
+  el.style.top=top+'%';
+  el.style.fontSize=fontSize+'px';
+  document.getElementById('fruitStage').appendChild(el);
+
+  const distance=document.getElementById('fruitStage').clientWidth+160;
+  const anim=el.animate(
+    [{transform:'translate(0,-50%)'},{transform:`translate(-${distance}px,calc(-50% + ${verticalShift}px))`}],
+    {duration,easing:'linear',fill:'forwards'}
+  );
+  fruitAnimations.push(anim);
+  anim.onfinish=()=>el.remove();
+};
+
+scheduleFruits=function(){
+  let t=500,maxEnd=0;
+
+  fruitSequence.forEach(type=>{
+    let gap=1000,maxTravel=4800;
+
+    if(fruitDifficulty==='veryEasy'||fruitDifficulty==='easy'){
+      gap=1250;maxTravel=4800;
+    }else if(fruitDifficulty==='middle'){
+      gap=rand(600,950);
+      if(Math.random()<.15)gap=rand(420,580);
+      maxTravel=4100;
+    }else if(fruitDifficulty==='normal'){
+      gap=rand(450,760);
+      if(Math.random()<.20)gap=rand(320,460);
+      if(Math.random()<.10)gap=rand(780,900);
+      maxTravel=3150;
+    }else{
+      gap=rand(220,520);
+      if(Math.random()<.18)gap=rand(110,180);
+      if(Math.random()<.10)gap=rand(600,800);
+      maxTravel=2500;
+    }
+
+    t+=gap;
+    const spawn=t;
+    fruitTimers.push(setTimeout(()=>{
+      if(fruitRunning)createFruit(type);
+    },spawn));
+    maxEnd=Math.max(maxEnd,spawn+maxTravel);
+  });
+
+  fruitTimers.push(setTimeout(()=>{
+    if(!fruitRunning)return;
+    fruitRunning=false;
+    document.getElementById('fruitStartBtn').disabled=false;
+    document.getElementById('fruitStopBtn').disabled=true;
+    document.getElementById('fruitStatus').textContent='모든 과일이 지나갔습니다!';
+    document.getElementById('fruitRound').textContent='정답 입력';
+    document.getElementById('fruitAnswerForm').classList.add('show');
+    document.getElementById('appleInput').value='';
+    document.getElementById('bananaInput').value='';
+    document.getElementById('appleInput').focus();
+  },maxEnd+500));
+};
+
+/* ---------- 사라진 물건: 매우 쉬움 + 그림만 + 지갑/칫솔 제거 ---------- */
+objectPool.splice(
+  0,
+  objectPool.length,
+  ...objectPool.filter(item=>item.name!=='지갑'&&item.name!=='칫솔')
+);
+
+objectConfig.veryEasy={
+  label:'매우 쉬움',
+  showCount:3,
+  answerCount:1,
+  optionCount:3
+};
+
+objectCard=function(item,cls=''){
+  return `<div class="object-card ${cls}" role="img" aria-label="${item.name}" title="${item.name}">
+    <div class="emoji">${item.emoji}</div>
+  </div>`;
+};
+
+renderObjectChoices=function(disabled){
+  const wrap=document.getElementById('objectChoices');
+  wrap.style.gridTemplateColumns=`repeat(${objectOptions.length},minmax(0,1fr))`;
+  wrap.innerHTML=objectOptions.map(it=>
+    `<button class="memory-choice" aria-label="${it.name}" title="${it.name}" data-name="${it.name}" ${disabled?'disabled':''}
+      onclick="toggleObjectChoice('${it.name}')">
+      <div class="emoji">${it.emoji}</div>
+    </button>`
+  ).join('');
+
+  document.getElementById('objectSubmitWrap').innerHTML=
+    `<button id="objectSubmitBtn" class="primary" onclick="submitObjectAnswer()" disabled>정답 확인</button>`;
+};
+
+/* ---------- 난이도 선택 화면 ---------- */
+renderDifficultyScreen=function(){
+  const kicker=document.getElementById('difficultyKicker');
+  const sub=document.getElementById('difficultySub');
+  const box=document.getElementById('difficultyOptions');
+
+  if(selectedGame==='pattern'){
+    kicker.textContent='PATTERN MATCH';
+    sub.textContent='원하는 난이도를 선택하세요.';
+    box.innerHTML=`
+      <button onclick="startPattern(2)"><div class="num">2×2</div><strong>매우 쉬움</strong><small>7초 기억 · 색상 2가지</small></button>
+      <button onclick="startPattern(3)"><div class="num">3×3</div><strong>쉬움</strong><small>7초 기억 · 색상 3가지</small></button>
+      <button onclick="startPattern(5)"><div class="num">5×5</div><strong>보통</strong><small>7초 기억 · 색상 4가지</small></button>
+      <button onclick="startPattern(7)"><div class="num">7×7</div><strong>어려움</strong><small>7초 기억 · 색상 4가지</small></button>
+      <button onclick="startPattern(9)"><div class="num">9×9</div><strong>매우 어려움</strong><small>7초 기억 · 색상 5가지</small></button>`;
+
+  }else if(selectedGame==='fruit'){
+    kicker.textContent='FRUIT COUNT';
+    sub.textContent='사과와 바나나를 각각 세어보세요.';
+    box.innerHTML=`
+      <button onclick="startFruit('veryEasy')"><div class="num">2~5</div><strong>매우 쉬움</strong><small>사과 2~5개 · 바나나 1~2개 · 블라인드 없음</small></button>
+      <button onclick="startFruit('easy')"><div class="num">7~10</div><strong>쉬움</strong><small>바나나 1~4개 · 블라인드 없음</small></button>
+      <button onclick="startFruit('middle')"><div class="num">9~14</div><strong>보통</strong><small>바나나 1~4개 · 양쪽 15% 블라인드</small></button>
+      <button onclick="startFruit('normal')"><div class="num">10~20</div><strong>어려움</strong><small>바나나 3~10개 · 양쪽 25% 블라인드</small></button>
+      <button onclick="startFruit('extreme')"><div class="num">25~40</div><strong>매우 어려움</strong><small>바나나 3~10개 · 양쪽 35% 블라인드</small></button>`;
+
+  }else if(selectedGame==='object'){
+    kicker.textContent='MISSING OBJECT';
+    sub.textContent='기억할 물건과 선택지 수에 따라 난이도가 달라집니다.';
+    box.innerHTML=`
+      <button onclick="startObject('veryEasy')"><div class="num">3개</div><strong>매우 쉬움</strong><small>기억 3개 · 정답 1개 · 선택지 3개</small></button>
+      <button onclick="startObject('easy')"><div class="num">5개</div><strong>쉬움</strong><small>기억 5개 · 정답 1개 · 선택지 4개</small></button>
+      <button onclick="startObject('normal')"><div class="num">6개</div><strong>보통</strong><small>기억 6개 · 정답 2개 · 선택지 5개</small></button>
+      <button onclick="startObject('hard')"><div class="num">7개</div><strong>어려움</strong><small>기억 7개 · 정답 3개 · 선택지 6개</small></button>
+      <button onclick="startObject('extreme')"><div class="num">8개</div><strong>매우 어려움</strong><small>기억 8개 · 정답 4개 · 선택지 7개</small></button>`;
+
+  }else if(selectedGame==='hwatu'){
+    /* 기존 화투 난이도/게임 규칙 유지 */
+    kicker.textContent='HWATU MEMORY';
+    sub.textContent='난이도를 선택하세요.';
+    box.innerHTML=`
+      <button onclick="startHwatu('easy')"><div class="num">2장</div><strong>쉬움</strong><small>정답 2장 · 선택지 4장</small></button>
+      <button onclick="startHwatu('normal')"><div class="num">3장</div><strong>보통</strong><small>정답 3장 · 선택지 5장</small></button>
+      <button onclick="startHwatu('hard')"><div class="num">4장</div><strong>어려움</strong><small>정답 4장 · 선택지 6장</small></button>
+      <button onclick="startHwatu('extreme')"><div class="num">5장</div><strong>매우 어려움</strong><small>정답 5장 · 선택지 7장</small></button>`;
+
+  }else{
+    /* 기존 큐브 난이도/게임 규칙 유지 */
+    kicker.textContent='CUBE CARVING';
+    sub.textContent='같은 난이도로 3판을 플레이합니다.';
+    box.innerHTML=`
+      <button onclick="startCube('easy')"><div class="num">3~4</div><strong>쉬움</strong><small>제거 블록 · 좌우 회전 · 60초</small></button>
+      <button onclick="startCube('normal')"><div class="num">5~6</div><strong>보통</strong><small>제거 블록 · 좌우 회전 · 60초</small></button>
+      <button onclick="startCube('hard')"><div class="num">7~8</div><strong>어려움</strong><small>제거 블록 · 자유 회전 · 60초</small></button>
+      <button onclick="startCube('extreme')"><div class="num">9~11</div><strong>매우 어려움</strong><small>제거 블록 · 자유 회전 · 60초</small></button>`;
+  }
+};
+
+/* ---------- 랭킹 난이도 필터: 새 매우 쉬움 표시 ---------- */
+renderRankingFilters=function(){
+  let labels;
+
+  if(rankingGame==='pattern'){
+    labels=[
+      ['매우 쉬움','매우 쉬움 · 2×2'],
+      ['쉬움','쉬움 · 3×3'],
+      ['보통','보통 · 5×5'],
+      ['어려움','어려움 · 7×7'],
+      ['매우 어려움','매우 어려움 · 9×9']
+    ];
+  }else if(rankingGame==='object'){
+    labels=[
+      ['매우 쉬움','매우 쉬움'],
+      ['쉬움','쉬움'],
+      ['보통','보통'],
+      ['어려움','어려움'],
+      ['매우 어려움','매우 어려움']
+    ];
+  }else{
+    labels=[
+      ['쉬움','쉬움'],
+      ['보통','보통'],
+      ['어려움','어려움'],
+      ['매우 어려움','매우 어려움']
+    ];
+  }
+
+  document.getElementById('rankingFilters').innerHTML=labels.map(([value,label])=>
+    `<button class="ranking-filter ${value===rankingDifficulty?'selected':''}" data-diff="${value}" onclick="setRankingDifficulty('${value}')">${label}</button>`
+  ).join('');
+};
+
+
 /* v10 hotfix: inline onclick에서 새 게임 함수에 접근할 수 있도록 전역으로 공개 */
 window.startObject=startObject;
 window.leaveObjectGame=leaveObjectGame;
@@ -2077,6 +2593,13 @@ window.nextObjectQuestion=nextObjectQuestion;
 window.startHwatu=startHwatu;
 window.leaveHwatuGame=leaveHwatuGame;
 window.nextHwatuQuestion=nextHwatuQuestion;
+
+window.startPattern=startPattern;
+window.startFruit=startFruit;
+window.renderDifficultyScreen=renderDifficultyScreen;
+window.setInstruction=setInstruction;
+window.renderRankingFilters=renderRankingFilters;
+
 
 preloadHwatuImages();
 })();
